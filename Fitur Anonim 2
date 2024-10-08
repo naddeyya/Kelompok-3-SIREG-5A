@@ -1,0 +1,152 @@
+import React from 'react';
+import { View, Text, Switch, StyleSheet } from 'react-native';
+import { FontAwesome } from '@expo/vector-icons';
+
+const AnonimApp = () => {
+  const [isEnabled, setIsEnabled] = React.useState(true);
+
+  const toggleSwitch = () => setIsEnabled(previousState => !previousState);
+
+  return (
+    <View style={styles.container}>
+      {/* Header */}
+      <View style={styles.header}>
+        <FontAwesome name="arrow-left" size={24} color="gray" />
+        <Text style={styles.headerText}>Anonim</Text>
+        <View style={styles.headerPlaceholder} />
+      </View>
+
+      {/* Main Content */}
+      <View style={styles.featureContainer}>
+        <Text style={styles.featureText}>Fitur anonim</Text>
+        <View style={styles.switchContainer}>
+          <Switch
+            trackColor={{ false: '#767577', true: '#81b0ff' }}
+            thumbColor={isEnabled ? '#f5dd4b' : '#f4f3f4'}
+            onValueChange={toggleSwitch}
+            value={isEnabled}
+          />
+          <View style={[styles.switchTextContainer, { backgroundColor: isEnabled ? 'transparent' : '#4A90E2' }]}>
+            <Text style={styles.switchText}>Off</Text>
+          </View>
+        </View>
+      </View>
+      <Text style={styles.descriptionText}>
+        Dengan mengaktifkan fitur anonim, informasi tentang anda tidak akan muncul pada saat pengisian evaluasi.
+      </Text>
+
+      {/* Footer */}
+      <View style={styles.footer}>
+        {['Beranda', 'Lainnya', 'Akademik', 'Pesan', 'Akun'].map((item, index) => (
+          <View key={index} style={styles.footerItem}>
+            <FontAwesome name={getIconName(item)} size={24} color={item === 'Akademik' ? 'yellow' : 'gray'} />
+            <Text style={[styles.footerText, item === 'Akademik' && styles.academicText]}>{item}</Text>
+          </View>
+        ))}
+      </View>
+    </View>
+  );
+};
+
+// Helper function to determine icon names based on footer items
+const getIconName = (item) => {
+  switch (item) {
+    case 'Beranda':
+      return 'home';
+    case 'Lainnya':
+      return 'ellipsis-h';
+    case 'Akademik':
+      return 'graduation-cap';
+    case 'Pesan':
+      return 'envelope';
+    case 'Akun':
+      return 'user';
+    default:
+      return 'circle'; // Default icon
+  }
+};
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: 'white',
+    justifyContent: 'flex-start',
+    padding: 20,
+  },
+  header: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'flex-start', // Change to flex-start to align items to the left
+    paddingVertical: 16,
+    borderBottomWidth: 1,
+    borderColor: '#e0e0e0',
+  },
+  headerText: {
+    color: 'blue',
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginLeft: 10, // Add margin to space it from the icon
+  },
+  headerPlaceholder: {
+    width: 24, // Placeholder for spacing
+  },
+  featureContainer: {
+    backgroundColor: '#f0f0f0',
+    borderRadius: 30,
+    padding: 20,
+    width: '100%',
+    alignItems: 'center',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginTop: 20,
+  },
+  featureText: {
+    color: 'gray',
+    fontSize: 16,
+  },
+  switchContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  switchTextContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 20,
+    width: 60, // Adjusted width for better appearance
+    height: 30,
+    marginLeft: 10, // Add margin for spacing
+    backgroundColor: '#D3D3D3', // Background color for the text container
+  },
+  switchText: {
+    color: 'black', // Text color
+    fontSize: 16,
+  },
+  descriptionText: {
+    color: 'lightgray',
+    textAlign: 'center',
+    marginTop: 20,
+    paddingHorizontal: 20,
+  },
+  footer: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    width: '100%',
+    borderTopWidth: 1,
+    borderColor: '#e0e0e0',
+    paddingVertical: 10,
+    position: 'absolute',
+    bottom: 0,
+  },
+  footerItem: {
+    alignItems: 'center',
+  },
+  footerText: {
+    fontSize: 12,
+    color: 'gray',
+  },
+  academicText: {
+    color: 'yellow', // Color for the academic text
+  },
+});
+
+export default AnonimApp;
