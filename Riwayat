@@ -1,0 +1,150 @@
+import React from 'react';
+import {
+  StyleSheet,
+  Text,
+  View,
+  TextInput,
+  ScrollView,
+  TouchableOpacity,
+  SafeAreaView
+} from 'react-native';
+import Icon from 'react-native-vector-icons/Ionicons'; // Untuk icon jika diperlukan
+
+const App = () => {
+  return (
+    <SafeAreaView style={styles.container}>
+      {/* Header */}
+      <View style={styles.header}>
+        <Text style={styles.headerText}>TeachTrack</Text>
+        <View style={styles.searchContainer}>
+          <TextInput
+            style={styles.searchInput}
+            placeholder="Search"
+          />
+          <TouchableOpacity style={styles.searchIconContainer}>
+            <Icon name="search" size={24} color="#000" />
+          </TouchableOpacity>
+        </View>
+      </View>
+
+      {/* Menu */}
+      <View style={styles.menuContainer}>
+        <Text style={styles.menuText}>BERANDA</Text>
+        <Text style={styles.menuText}>PENGISIAN</Text>
+        <Text style={styles.menuTextActive}>RIWAYAT</Text>
+      </View>
+
+      {/* Riwayat Section */}
+      <ScrollView contentContainerStyle={styles.historyContainer}>
+        <View style={styles.historyCard}>
+          <Text style={styles.historyDate}>10 Desember 2023 6:50 AM</Text>
+          <View style={styles.historyContent}>
+            <Icon name="person-circle-outline" size={50} color="#000" />
+            <Text style={styles.historyMessage}>
+              Anda telah melakukan pengisian formulir Dosen atas nama Rizkyllah, M.Kom
+            </Text>
+          </View>
+        </View>
+
+        <View style={styles.historyCard}>
+          <Text style={styles.historyDate}>7 November 2023 6:50 AM</Text>
+          <View style={styles.historyContent}>
+            <Icon name="person-circle-outline" size={50} color="#000" />
+            <Text style={styles.historyMessage}>
+              Anda telah melakukan pengisian formulir Dosen atas nama Yusuf, Ph.D
+            </Text>
+          </View>
+        </View>
+
+        <View style={styles.historyCard}>
+          <Text style={styles.historyDate}>9 Oktober 2023 6:50 AM</Text>
+          <View style={styles.historyContent}>
+            <Icon name="person-circle-outline" size={50} color="#000" />
+            <Text style={styles.historyMessage}>
+              Anda telah melakukan pengisian formulir Dosen atas nama Maria, M.Kom
+            </Text>
+          </View>
+        </View>
+      </ScrollView>
+    </SafeAreaView>
+  );
+};
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#f0f4ff',
+  },
+  header: {
+    marginTop: 30,
+    alignItems: 'center',
+    paddingHorizontal: 20,
+  },
+  headerText: {
+    fontSize: 28,
+    fontWeight: 'bold',
+    color: '#FFC700',
+  },
+  searchContainer: {
+    flexDirection: 'row',
+    marginTop: 10,
+    width: '100%',
+    alignItems: 'center',
+  },
+  searchInput: {
+    flex: 1,
+    height: 40,
+    borderColor: '#ccc',
+    borderWidth: 1,
+    borderRadius: 20,
+    paddingHorizontal: 15,
+    backgroundColor: '#fff',
+  },
+  searchIconContainer: {
+    marginLeft: -40,
+    zIndex: 1,
+  },
+  menuContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    marginVertical: 20,
+    borderBottomWidth: 1,
+    borderBottomColor: '#ccc',
+  },
+  menuText: {
+    fontSize: 16,
+    color: '#333',
+    fontWeight: 'bold',
+  },
+  menuTextActive: {
+    fontSize: 16,
+    color: '#007BFF',
+    fontWeight: 'bold',
+  },
+  historyContainer: {
+    paddingHorizontal: 20,
+  },
+  historyCard: {
+    backgroundColor: '#fff',
+    padding: 20,
+    borderRadius: 10,
+    marginBottom: 20,
+  },
+  historyDate: {
+    fontSize: 14,
+    color: '#666',
+    marginBottom: 10,
+  },
+  historyContent: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  historyMessage: {
+    fontSize: 16,
+    color: '#333',
+    marginLeft: 10,
+    flex: 1,
+  },
+});
+
+export default App;
