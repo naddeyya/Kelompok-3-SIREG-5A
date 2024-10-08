@@ -1,0 +1,155 @@
+import React, { useState } from 'react';
+import { View, Text, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
+import { FontAwesome } from '@expo/vector-icons';
+
+const ProfilDosen = () => {
+  const [expandedSection, setExpandedSection] = useState(null);
+
+  const toggleSection = (section) => {
+    setExpandedSection(expandedSection === section ? null : section);
+  };
+
+  return (
+    <View style={styles.container}>
+      <View style={styles.statusBar}>
+        <View style={styles.left}>
+          <FontAwesome name="signal" size={16} color="#fff" />
+          <FontAwesome name="wifi" size={16} color="#fff" />
+        </View>
+        <Text style={styles.center}>9:41 AM</Text>
+        <View style={styles.right}>
+          <FontAwesome name="battery-full" size={16} color="#fff" />
+        </View>
+      </View>
+      <View style={styles.profileHeader}>
+        <TouchableOpacity>
+          <FontAwesome name="arrow-left" size={24} color="white" />
+        </TouchableOpacity>
+        <Text style={styles.title}>
+          Profil <Text style={styles.subtitle}>Dosen</Text>
+        </Text>
+        <View style={styles.profilePicContainer}>
+          <FontAwesome name="user" size={60} color="white" />
+        </View>
+        <View style={styles.profileInfo}>
+          <Text style={styles.name}>Rizkyllah, M.Kom</Text>
+          <Text style={styles.degree}>Magister Komputer</Text>
+          <Text style={styles.status}>Dosen Sistem Informasi 2022-sekarang</Text>
+        </View>
+      </View>
+      <ScrollView style={styles.sections}>
+        {['Informasi Pribadi', 'Riwayat Pendidikan', 'Riwayat Pekerjaan', 'Publikasi Karya'].map((section, index) => (
+          <View key={index}>
+            <TouchableOpacity style={styles.sectionButton} onPress={() => toggleSection(section)}>
+              <Text style={styles.sectionTitle}>{section}</Text>
+              <FontAwesome name={expandedSection === section ? 'chevron-up' : 'chevron-down'} size={20} />
+            </TouchableOpacity>
+            {expandedSection === section && (
+              <View style={styles.sectionContent}>
+                <Text>{section} content goes here...</Text>
+              </View>
+            )}
+          </View>
+        ))}
+      </ScrollView>
+    </View>
+  );
+};
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#F7FAFC',
+  },
+  statusBar: {
+    height: 44,
+    backgroundColor: '#007AFF',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingHorizontal: 10,
+    color: '#fff',
+    fontSize: 12,
+  },
+  left: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  center: {
+    color: '#fff',
+    fontSize: 12,
+  },
+  right: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  profileHeader: {
+    backgroundColor: '#4A90E2',
+    padding: 24,
+    alignItems: 'center',
+    position: 'relative',
+  },
+  title: {
+    color: '#FFD700',
+    fontSize: 24,
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
+  subtitle: {
+    color: 'white',
+  },
+  profilePicContainer: {
+    marginTop: 16,
+    borderRadius: 50,
+    borderWidth: 2,
+    borderColor: 'white',
+    padding: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  profileInfo: {
+    marginTop: 16,
+    backgroundColor: 'rgba(255, 255, 255, 0.3)',
+    padding: 16,
+    borderRadius: 10,
+    alignItems: 'center',
+  },
+  name: {
+    color: 'white',
+    fontSize: 18,
+    fontWeight: 'bold',
+  },
+  degree: {
+    color: 'white',
+    fontSize: 16,
+  },
+  status: {
+    color: 'white',
+    fontSize: 14,
+  },
+  sections: {
+    flex: 1,
+    padding: 10,
+  },
+  sectionButton: {
+    padding: 15,
+    backgroundColor: '#FFFFFF',
+    borderRadius: 10,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 10,
+  },
+  sectionTitle: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: 'black',
+  },
+  sectionContent: {
+    padding: 15,
+    backgroundColor: '#F3F4F6',
+    borderRadius: 10,
+  },
+});
+
+export default ProfilDosen;
