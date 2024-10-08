@@ -1,0 +1,88 @@
+import React, { useState } from "react";
+import { View, Text, Switch, StyleSheet, StatusBar } from "react-native";
+
+const AnonimScreen = () => {
+  const [isAnonim, setIsAnonim] = useState(false);
+
+  // Fungsi untuk toggle switch
+  const toggleSwitch = () => setIsAnonim((previousState) => !previousState);
+
+  return (
+    <View style={styles.container}>
+      {/* Status Bar Configuration */}
+      <StatusBar barStyle="dark-content" backgroundColor="#FFFFFF" />
+
+      {/* Header */}
+      <Text style={styles.header}>Anonim</Text>
+
+      {/* Container untuk fitur anonim */}
+      <View style={styles.anonymousFeatureContainer}>
+        <View style={styles.anonymousFeature}>
+          <Text style={styles.anonymousText}>Fitur anonim</Text>
+          <Switch
+            trackColor={{ false: "#E5E5EA", true: "#34C759" }} // Warna track
+            thumbColor={isAnonim ? "#FFFFFF" : "#FFFFFF"} // Warna thumb/tombol
+            ios_backgroundColor="#E5E5EA"
+            onValueChange={toggleSwitch} // Event untuk toggle switch
+            value={isAnonim} // Nilai dari switch
+          />
+        </View>
+        <Text style={styles.description}>
+          Dengan mengaktifkan fitur anonim, informasi tentang anda tidak akan
+          muncul pada saat pengisian evaluasi.
+        </Text>
+      </View>
+    </View>
+  );
+};
+
+// StyleSheet untuk styling tampilan
+const styles = StyleSheet.create({
+  container: {
+    flex: 1, // Agar layout memenuhi layar
+    paddingHorizontal: 16, // Padding kiri dan kanan
+    backgroundColor: "#FFFFFF", // Warna background layar
+  },
+  header: {
+    fontSize: 18, // Ukuran font untuk header
+    fontWeight: "600", // Tebal font header
+    marginBottom: 20, // Margin bawah dari header
+    color: "#000000", // Warna teks hitam
+    textAlign: "center", // Teks di tengah
+  },
+  anonymousFeatureContainer: {
+    marginTop: 30, // Margin atas dari container fitur anonim
+    paddingVertical: 15, // Padding atas dan bawah dari container
+    paddingHorizontal: 16, // Padding kiri dan kanan dari container
+    backgroundColor: "#FFFFFF", // Background putih
+    borderRadius: 12, // Sudut melengkung
+    borderWidth: 1, // Lebar border
+    borderColor: "#E5E5EA", // Warna border abu-abu
+    shadowColor: "#000", // Warna shadow
+    shadowOffset: {
+      width: 0, // Offset horizontal dari shadow
+      height: 2, // Offset vertikal dari shadow
+    },
+    shadowOpacity: 0.1, // Tingkat opacity dari shadow
+    shadowRadius: 2, // Radius shadow
+    elevation: 2, // Elevation untuk Android
+  },
+  anonymousFeature: {
+    flexDirection: "row", // Teks dan switch sejajar horizontal
+    justifyContent: "space-between", // Jarak antara teks dan switch
+    alignItems: "center", // Posisikan secara vertikal di tengah
+  },
+  anonymousText: {
+    fontSize: 16, // Ukuran font teks "Fitur anonim"
+    fontWeight: "400", // Berat font normal
+    color: "#000000", // Warna teks hitam
+  },
+  description: {
+    fontSize: 14, // Ukuran font deskripsi
+    color: "#8E8E93", // Warna teks deskripsi abu-abu terang
+    marginTop: 10, // Margin atas dari deskripsi
+    lineHeight: 20, // Spasi antar baris
+  },
+});
+
+export default AnonimScreen;
