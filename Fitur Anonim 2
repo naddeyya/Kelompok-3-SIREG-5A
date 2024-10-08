@@ -27,7 +27,7 @@ const AnonimApp = () => {
             value={isEnabled}
           />
           <View style={[styles.switchTextContainer, { backgroundColor: isEnabled ? 'transparent' : '#4A90E2' }]}>
-            <Text style={styles.switchText}>Off</Text>
+            <Text style={styles.switchText}>On</Text>
           </View>
         </View>
       </View>
