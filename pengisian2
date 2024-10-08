@@ -1,98 +1,202 @@
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pencarian Dosen</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
-    <style>
-        body {
-            font-family: 'Roboto', sans-serif;
-        }
-    </style>
-</head>
-<body class="bg-white">
-    <div class="max-w-md mx-auto p-4">
-        <div class="flex items-center mb-4">
-            <i class="fas fa-arrow-left text-gray-600"></i>
-            <h1 class="text-xl font-bold ml-2"><span class="text-yellow-500">Pencarian</span> Dosen</h1>
-        </div>
-        <div class="relative mb-4">
-            <input type="text" placeholder="Search" class="w-full pl-10 pr-4 py-2 border rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500">
-            <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
-        </div>
-        <h2 class="text-gray-500 mb-2">History</h2>
-        <div class="space-y-4">
-            <div class="bg-blue-200 p-4 rounded-lg shadow-md flex items-center">
-                <div class="w-12 h-12 bg-white rounded-full flex items-center justify-center">
-                    <i class="fas fa-user text-blue-500 text-2xl"></i>
-                </div>
-                <div class="ml-4">
-                    <h3 class="font-bold text-lg">Rizkyllah, M.Kom</h3>
-                    <p class="text-sm">Magister Komputer</p>
-                    <p class="text-sm">Dosen Sistem Informasi 2022-sekarang</p>
-                    <a href="#" class="text-blue-500 text-sm">lihat profil</a>
-                </div>
-            </div>
-            <div class="bg-blue-200 p-4 rounded-lg shadow-md flex items-center">
-                <div class="w-12 h-12 bg-white rounded-full flex items-center justify-center">
-                    <i class="fas fa-user text-blue-500 text-2xl"></i>
-                </div>
-                <div class="ml-4">
-                    <h3 class="font-bold text-lg">Ayu Pratiwi, S.Kom, M.T</h3>
-                    <p class="text-sm">Magister Teknik</p>
-                    <p class="text-sm">Dosen Teknik Informatika 2015-sekarang</p>
-                    <a href="#" class="text-blue-500 text-sm">lihat profil</a>
-                </div>
-            </div>
-            <div class="bg-blue-200 p-4 rounded-lg shadow-md flex items-center">
-                <div class="w-12 h-12 bg-white rounded-full flex items-center justify-center">
-                    <i class="fas fa-user text-blue-500 text-2xl"></i>
-                </div>
-                <div class="ml-4">
-                    <h3 class="font-bold text-lg">Joko Susilo, Ph.D</h3>
-                    <p class="text-sm">Master of Philosophy</p>
-                    <p class="text-sm">Dosen Sistem Komputer 2005-sekarang</p>
-                    <a href="#" class="text-blue-500 text-sm">lihat profil</a>
-                </div>
-            </div>
-            <div class="bg-blue-200 p-4 rounded-lg shadow-md flex items-center">
-                <div class="w-12 h-12 bg-white rounded-full flex items-center justify-center">
-                    <i class="fas fa-user text-blue-500 text-2xl"></i>
-                </div>
-                <div class="ml-4">
-                    <h3 class="font-bold text-lg">Dr. Yusuf, M.T</h3>
-                    <p class="text-sm">Doktor Ilmu Komputer</p>
-                    <p class="text-sm">Dosen Sistem Komputer 2005-sekarang</p>
-                    <a href="#" class="text-blue-500 text-sm">lihat profil</a>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="fixed bottom-0 left-0 right-0 bg-white border-t">
-        <div class="flex justify-around py-2">
-            <a href="#" class="flex flex-col items-center text-gray-500">
-                <i class="fas fa-home text-xl"></i>
-                <span class="text-xs">Beranda</span>
-            </a>
-            <a href="#" class="flex flex-col items-center text-gray-500">
-                <i class="fas fa-th-large text-xl"></i>
-                <span class="text-xs">Lainnya</span>
-            </a>
-            <a href="#" class="flex flex-col items-center text-yellow-500">
-                <i class="fas fa-graduation-cap text-xl"></i>
-                <span class="text-xs">Akademik</span>
-            </a>
-            <a href="#" class="flex flex-col items-center text-gray-500">
-                <i class="fas fa-envelope text-xl"></i>
-                <span class="text-xs">Pesan</span>
-            </a>
-            <a href="#" class="flex flex-col items-center text-gray-500">
-                <i class="fas fa-user text-xl"></i>
-                <span class="text-xs">Akun</span>
-            </a>
-        </div>
-    </div>
-</body>
-</html>
+// PencarianDosen.js
+import React from 'react';
+import { View, Text, TextInput, TouchableOpacity, FlatList, StyleSheet } from 'react-native';
+import { FontAwesome } from '@expo/vector-icons';
+
+const data = [
+  {
+    id: '1',
+    name: 'Rizkyllah, M.Kom',
+    title: 'Magister Komputer',
+    details: 'Dosen Sistem Informasi 2022-sekarang',
+  },
+  {
+    id: '2',
+    name: 'Ayu Pratiwi, S.Kom, M.T',
+    title: 'Magister Teknik',
+    details: 'Dosen Teknik Informatika 2015-sekarang',
+  },
+  {
+    id: '3',
+    name: 'Joko Susilo, Ph.D',
+    title: 'Master of Philosophy',
+    details: 'Dosen Sistem Komputer 2005-sekarang',
+  },
+  {
+    id: '4',
+    name: 'Dr. Yusuf, M.T',
+    title: 'Doktor Ilmu Komputer',
+    details: 'Dosen Sistem Komputer 2005-sekarang',
+  },
+];
+
+const PencarianDosen = () => {
+  return (
+    <View style={styles.container}>
+      {/* Header */}
+      <View style={styles.header}>
+        <FontAwesome name="arrow-left" size={24} color="gray" />
+        <Text style={styles.headerText}>
+          <Text style={styles.highlight}>Pencarian</Text> Dosen
+        </Text>
+      </View>
+
+      {/* Search Input */}
+      <View style={styles.searchContainer}>
+        <FontAwesome name="search" size={20} color="gray" style={styles.searchIcon} />
+        <TextInput
+          style={styles.searchInput}
+          placeholder="Search"
+        />
+      </View>
+
+      {/* History */}
+      <Text style={styles.historyText}>History</Text>
+
+      {/* List of Dosen */}
+      <FlatList
+        data={data}
+        keyExtractor={(item) => item.id}
+        renderItem={({ item }) => (
+          <View style={styles.card}>
+            <View style={styles.cardIcon}>
+              <FontAwesome name="user" size={24} color="blue" />
+            </View>
+            <View style={styles.cardContent}>
+              <Text style={styles.cardName}>{item.name}</Text>
+              <Text style={styles.cardTitle}>{item.title}</Text>
+              <Text style={styles.cardDetails}>{item.details}</Text>
+              <TouchableOpacity>
+                <Text style={styles.profileLink}>lihat profil</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        )}
+      />
+
+      {/* Bottom Navigation */}
+      <View style={styles.bottomNavigation}>
+        <TouchableOpacity style={styles.navItem}>
+          <FontAwesome name="home" size={24} color="gray" />
+          <Text style={styles.navText}>Beranda</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.navItem}>
+          <FontAwesome name="th-large" size={24} color="gray" />
+          <Text style={styles.navText}>Lainnya</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.navItem}>
+          <FontAwesome name="graduation-cap" size={24} color="yellow" />
+          <Text style={styles.navTextActive}>Akademik</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.navItem}>
+          <FontAwesome name="envelope" size={24} color="gray" />
+          <Text style={styles.navText}>Pesan</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.navItem}>
+          <FontAwesome name="user" size={24} color="gray" />
+          <Text style={styles.navText}>Akun</Text>
+        </TouchableOpacity>
+      </View>
+    </View>
+  );
+};
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: 'white',
+    padding: 16,
+  },
+  header: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 16,
+  },
+  headerText: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginLeft: 8,
+  },
+  highlight: {
+    color: 'yellow',
+  },
+  searchContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 16,
+    borderWidth: 1,
+    borderColor: '#ddd',
+    borderRadius: 50,
+    paddingHorizontal: 10,
+    paddingVertical: 8,
+  },
+  searchIcon: {
+    marginRight: 10,
+  },
+  searchInput: {
+    flex: 1,
+    fontSize: 16,
+  },
+  historyText: {
+    fontSize: 18,
+    color: 'gray',
+    marginBottom: 8,
+  },
+  card: {
+    flexDirection: 'row',
+    backgroundColor: '#E0F2FE',
+    padding: 16,
+    borderRadius: 8,
+    marginBottom: 16,
+  },
+  cardIcon: {
+    width: 48,
+    height: 48,
+    backgroundColor: 'white',
+    borderRadius: 24,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  cardContent: {
+    marginLeft: 16,
+    flex: 1,
+  },
+  cardName: {
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+  cardTitle: {
+    fontSize: 14,
+    color: 'gray',
+  },
+  cardDetails: {
+    fontSize: 12,
+    color: 'gray',
+    marginBottom: 4,
+  },
+  profileLink: {
+    color: 'blue',
+    fontSize: 12,
+  },
+  bottomNavigation: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    borderTopWidth: 1,
+    borderTopColor: '#ddd',
+    paddingVertical: 10,
+    backgroundColor: 'white',
+  },
+  navItem: {
+    alignItems: 'center',
+  },
+  navText: {
+    fontSize: 12,
+    color: 'gray',
+  },
+  navTextActive: {
+    fontSize: 12,
+    color: 'yellow',
+  },
+});
+
+export default PencarianDosen;
