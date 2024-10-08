@@ -5,7 +5,10 @@ import { FontAwesome } from '@expo/vector-icons';
 const AnonimApp = () => {
   const [isEnabled, setIsEnabled] = React.useState(true);
 
-  const toggleSwitch = () => setIsEnabled(previousState => !previousState);
+  const toggleSwitch = () => {
+    console.log("Switch pressed"); // Debugging log untuk mengetahui apakah switch ditekan
+    setIsEnabled(previousState => !previousState);
+  };
 
   return (
     <View style={styles.container}>
@@ -13,23 +16,18 @@ const AnonimApp = () => {
       <View style={styles.header}>
         <FontAwesome name="arrow-left" size={24} color="gray" />
         <Text style={styles.headerText}>Anonim</Text>
-        <View style={styles.headerPlaceholder} />
       </View>
 
       {/* Main Content */}
       <View style={styles.featureContainer}>
         <Text style={styles.featureText}>Fitur anonim</Text>
-        <View style={styles.switchContainer}>
-          <Switch
-            trackColor={{ false: '#767577', true: '#81b0ff' }}
-            thumbColor={isEnabled ? '#f5dd4b' : '#f4f3f4'}
-            onValueChange={toggleSwitch}
-            value={isEnabled}
-          />
-          <View style={[styles.switchTextContainer, { backgroundColor: isEnabled ? 'transparent' : '#4A90E2' }]}>
-            <Text style={styles.switchText}>On</Text>
-          </View>
-        </View>
+        <Switch
+          trackColor={{ false: '#767577', true: '#81b0ff' }}
+          thumbColor={isEnabled ? '#f5dd4b' : '#f4f3f4'}
+          onValueChange={toggleSwitch}
+          value={isEnabled}
+        />
+        <Text style={styles.switchText}>{isEnabled ? 'On' : 'Off'}</Text>
       </View>
       <Text style={styles.descriptionText}>
         Dengan mengaktifkan fitur anonim, informasi tentang anda tidak akan muncul pada saat pengisian evaluasi.
@@ -40,7 +38,7 @@ const AnonimApp = () => {
         {['Beranda', 'Lainnya', 'Akademik', 'Pesan', 'Akun'].map((item, index) => (
           <View key={index} style={styles.footerItem}>
             <FontAwesome name={getIconName(item)} size={24} color={item === 'Akademik' ? 'yellow' : 'gray'} />
-            <Text style={[styles.footerText, item === 'Akademik' && styles.academicText]}>{item}</Text>
+            <Text style={styles.footerText}>{item}</Text>
           </View>
         ))}
       </View>
@@ -76,7 +74,6 @@ const styles = StyleSheet.create({
   header: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'flex-start', // Change to flex-start to align items to the left
     paddingVertical: 16,
     borderBottomWidth: 1,
     borderColor: '#e0e0e0',
@@ -85,10 +82,7 @@ const styles = StyleSheet.create({
     color: 'blue',
     fontSize: 20,
     fontWeight: 'bold',
-    marginLeft: 10, // Add margin to space it from the icon
-  },
-  headerPlaceholder: {
-    width: 24, // Placeholder for spacing
+    marginLeft: 10,
   },
   featureContainer: {
     backgroundColor: '#f0f0f0',
@@ -104,22 +98,10 @@ const styles = StyleSheet.create({
     color: 'gray',
     fontSize: 16,
   },
-  switchContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  switchTextContainer: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 20,
-    width: 60, // Adjusted width for better appearance
-    height: 30,
-    marginLeft: 10, // Add margin for spacing
-    backgroundColor: '#D3D3D3', // Background color for the text container
-  },
   switchText: {
-    color: 'black', // Text color
+    color: 'black',
     fontSize: 16,
+    marginLeft: 10, // Menambahkan margin kiri untuk memberi jarak dari switch
   },
   descriptionText: {
     color: 'lightgray',
@@ -143,9 +125,6 @@ const styles = StyleSheet.create({
   footerText: {
     fontSize: 12,
     color: 'gray',
-  },
-  academicText: {
-    color: 'yellow', // Color for the academic text
   },
 });
 
