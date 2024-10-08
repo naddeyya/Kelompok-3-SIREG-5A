@@ -1,0 +1,118 @@
+import React from 'react';
+import { View, Text, TouchableOpacity, FlatList, StyleSheet } from 'react-native';
+import { FontAwesome } from '@expo/vector-icons';
+
+const dosenData = [
+  { id: '1', name: 'Rizkyllah, M.Kom', course: 'Teori Basis Data II' },
+  { id: '2', name: 'Ayu Pratiwi, S.Kom, M.T', course: 'Pemrograman Web II' },
+  { id: '3', name: 'Joko Susilo, Ph.D', course: 'Praktikum Basis Data II' },
+  { id: '4', name: 'Dr. Yusuf, M.T', course: 'Analisis Perancangan Sistem Terstruktur' },
+  { id: '5', name: 'Andriansyah, M.Kom', course: 'Manajemen Strategis' },
+];
+
+const PengisianEvaluasi = () => {
+  const renderDosen = ({ item }) => (
+    <View style={styles.card}>
+      <View style={styles.iconContainer}>
+        <FontAwesome name="user" size={28} color="#1E40AF" />
+      </View>
+      <View style={styles.cardContent}>
+        <Text style={styles.cardTitle}>{item.name}</Text>
+        <Text style={styles.cardSubtitle}>{item.course}</Text>
+        <TouchableOpacity>
+          <Text style={styles.cardLink}>Lakukan Pengisian</Text>
+        </TouchableOpacity>
+      </View>
+    </View>
+  );
+
+  return (
+    <View style={styles.container}>
+      {/* Header */}
+      <View style={styles.header}>
+        <FontAwesome name="arrow-left" size={24} color="black" />
+        <Text style={styles.headerTitle}>
+          <Text style={styles.highlightYellow}>Pengisian</Text> <Text style={styles.highlightBlue}>Evaluasi</Text>
+        </Text>
+      </View>
+
+      {/* Informational Text */}
+      <Text style={styles.infoText}>
+        Daftar dosen yang tertera sesuai dengan mata kuliah yang Anda ambil di semester ini.
+      </Text>
+
+      {/* List of Dosen */}
+      <FlatList
+        data={dosenData}
+        keyExtractor={(item) => item.id}
+        renderItem={renderDosen}
+      />
+    </View>
+  );
+};
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: 'white',
+    padding: 16,
+  },
+  header: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 16,
+  },
+  headerTitle: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginLeft: 8,
+  },
+  highlightYellow: {
+    color: '#FBBF24',
+  },
+  highlightBlue: {
+    color: '#1E40AF',
+  },
+  infoText: {
+    color: '#6B7280',
+    textAlign: 'center',
+    marginBottom: 16,
+  },
+  card: {
+    flexDirection: 'row',
+    backgroundColor: '#60A5FA',
+    padding: 16,
+    borderRadius: 8,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 4,
+    elevation: 5,
+    marginBottom: 16,
+    alignItems: 'center',
+  },
+  iconContainer: {
+    backgroundColor: 'white',
+    borderRadius: 50,
+    padding: 12,
+    marginRight: 16,
+  },
+  cardContent: {
+    flex: 1,
+  },
+  cardTitle: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: '#000',
+  },
+  cardSubtitle: {
+    color: '#374151',
+    marginBottom: 4,
+  },
+  cardLink: {
+    color: '#2563EB',
+    fontSize: 14,
+  },
+});
+
+export default PengisianEvaluasi;
