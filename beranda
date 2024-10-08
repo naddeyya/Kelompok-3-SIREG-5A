@@ -1,0 +1,281 @@
+import { StatusBar } from "expo-status-bar";
+import {
+  Image,
+  StyleSheet,
+  Text,
+  View,
+  TextInput,
+  TouchableOpacity,
+} from "react-native";
+import { Ionicons } from "@expo/vector-icons";
+
+export default function App() {
+  return (
+    <View style={styles.container}>
+      {/* Header */}
+      <View style={styles.header}>
+        <Text style={styles.title}>TeachTrack</Text>
+        <View style={styles.navTabs}>
+          <Text style={styles.activeNavTabText}>BERANDA</Text>
+          <Text style={styles.navTabText}>PENGISIAN</Text>
+          <Text style={styles.navTabText}>RIWAYAT</Text>
+        </View>
+      </View>
+
+      {/* Search Bar */}
+      <View style={styles.searchContainer}>
+        <TextInput
+          style={styles.searchInput}
+          placeholder="Search"
+          placeholderTextColor="#888"
+        />
+        <Ionicons name="search" size={20} color="#888" />
+      </View>
+
+      {/* About Section */}
+      <View style={styles.aboutContainer}>
+        <Text style={styles.sectionTitle}>About</Text>
+        <Text style={styles.sectionText}>
+          TeachTrack merupakan fitur penilaian kinerja dosen. Fitur ini dibuat
+          guna mendukung dan mengevaluasi pengajaran yang lebih baik.
+        </Text>
+      </View>
+
+      {/* Reminder */}
+      <View style={styles.reminderContainer}>
+        <View style={styles.reminderDate}>
+          <Text style={styles.reminderDateText}>19</Text>
+          <Text style={styles.reminderMonthText}>APRIL</Text>
+        </View>
+        <Text style={styles.reminderText}>
+          Anda belum melakukan pengisian data. Lakukan sebelum tanggal tertera.
+        </Text>
+      </View>
+
+      {/* Evaluation Section */}
+      <View style={styles.evaluationContainer}>
+        <Text style={styles.welcomeText}>Halo, Nagita Ahmad</Text>
+        <View style={styles.evaluationRow}>
+          <Image
+            source={{
+              uri: "https://www.putler.com/wp-content/uploads/2020/09/XzAyODE4MTYuanBn.jpg",
+            }}
+            style={styles.userImage}
+          />
+          <TouchableOpacity style={styles.evaluationButton}>
+            <Text style={styles.evaluationButtonText}>Klik Disini</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+
+      {/* Navigation bar */}
+      <View style={styles.navbar}>
+        <View style={styles.navItem}>
+          <Ionicons name="home-outline" size={24} color="#003366" />
+          <Text style={styles.navTextActive}>Beranda</Text>
+        </View>
+        <View style={styles.navItem}>
+          <Ionicons name="list-outline" size={24} color="#888" />
+          <Text style={styles.navText}>Lainnya</Text>
+        </View>
+        <View style={styles.navItem}>
+          <Ionicons name="school-outline" size={24} color="#FDCB58" />
+          <Text style={[styles.navText, { color: "#FDCB58" }]}>Akademik</Text>
+        </View>
+        <View style={styles.navItem}>
+          <Ionicons name="chatbubble-outline" size={24} color="#888" />
+          <Text style={styles.navText}>Pesan</Text>
+        </View>
+        <View style={styles.navItem}>
+          <Ionicons name="person-outline" size={24} color="#888" />
+          <Text style={styles.navText}>Akun</Text>
+        </View>
+      </View>
+
+      <StatusBar style="auto" />
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#F1F5FA",
+    alignItems: "center",
+    paddingTop: 50,
+    paddingHorizontal: 20,
+  },
+  header: {
+    width: "100%",
+    alignItems: "center",
+    marginBottom: 20,
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: "bold",
+    color: "#FDCB58",
+    fontFamily: "sans-serif-medium", // Adjusted font for similarity
+  },
+  navTabs: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+    width: "100%",
+    marginTop: 10,
+  },
+  navTabText: {
+    fontSize: 16,
+    color: "#888",
+    fontWeight: "bold",
+  },
+  activeNavTabText: {
+    fontSize: 16,
+    color: "#003366",
+    fontWeight: "bold",
+  },
+  searchContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "#fff",
+    borderRadius: 10,
+    paddingHorizontal: 10,
+    paddingVertical: 8,
+    width: "100%",
+    marginBottom: 20,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 5,
+  },
+  searchInput: {
+    flex: 1,
+    fontSize: 16,
+    color: "#000",
+  },
+  aboutContainer: {
+    backgroundColor: "#fff",
+    borderRadius: 10,
+    padding: 20,
+    width: "100%",
+    marginBottom: 20,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 5,
+  },
+  sectionTitle: {
+    fontSize: 18,
+    fontWeight: "bold",
+    marginBottom: 10,
+    color: "#003366",
+    fontFamily: "sans-serif",
+  },
+  sectionText: {
+    fontSize: 14,
+    color: "#666",
+  },
+  reminderContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "#fff",
+    borderRadius: 10,
+    padding: 15,
+    width: "100%",
+    marginBottom: 20,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 5,
+  },
+  reminderDate: {
+    backgroundColor: "#E3F6FF",
+    padding: 15,
+    borderRadius: 10,
+    marginRight: 15,
+    alignItems: "center",
+    width: 60,
+  },
+  reminderDateText: {
+    fontSize: 24,
+    fontWeight: "bold",
+    color: "#003366",
+  },
+  reminderMonthText: {
+    fontSize: 14,
+    color: "#003366",
+  },
+  reminderText: {
+    fontSize: 14,
+    color: "#666",
+    flex: 1,
+  },
+  evaluationContainer: {
+    backgroundColor: "#003366",
+    borderRadius: 10,
+    padding: 20,
+    width: "100%",
+    marginBottom: 20,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 5,
+  },
+  welcomeText: {
+    fontSize: 16,
+    color: "#fff",
+    marginBottom: 10,
+  },
+  evaluationRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    width: "100%",
+  },
+  userImage: {
+    width: 50,
+    height: 50,
+    borderRadius: 25,
+    marginRight: 20,
+  },
+  evaluationButton: {
+    backgroundColor: "#FDCB58",
+    borderRadius: 5,
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+  },
+  evaluationButtonText: {
+    color: "#003366",
+    fontWeight: "bold",
+  },
+  navbar: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    width: "100%",
+    paddingVertical: 10,
+    borderTopColor: "#ccc",
+    borderTopWidth: 1,
+    backgroundColor: "#fff",
+    position: "absolute",
+    bottom: 0,
+    left: 0,
+    right: 0,
+    paddingHorizontal: 30,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: -2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 5,
+  },
+  navItem: {
+    alignItems: "center",
+  },
+  navText: {
+    fontSize: 12,
+    color: "#888",
+    marginTop: 2,
+  },
+  navTextActive: {
+    fontSize: 12,
+    color: "#003366",
+    marginTop: 2,
+  },
+});
