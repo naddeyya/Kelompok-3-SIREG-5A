@@ -1,131 +1,222 @@
-import React from 'react';
-import { View, Text, Switch, StyleSheet } from 'react-native';
-import { FontAwesome } from '@expo/vector-icons';
+import React, { useState } from "react";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  StyleSheet,
+  ScrollView,
+} from "react-native";
+import Icon from "react-native-vector-icons/FontAwesome";
 
-const AnonimApp = () => {
-  const [isEnabled, setIsEnabled] = React.useState(true);
+export default function App() {
+  const [isAnonymEnabled, setIsAnonymEnabled] = useState(false);
 
-  const toggleSwitch = () => {
-    console.log("Switch pressed"); // Debugging log untuk mengetahui apakah switch ditekan
-    setIsEnabled(previousState => !previousState);
+  const toggleSwitch = () => setIsAnonymEnabled(!isAnonymEnabled);
+
+  // Function to handle navigation
+  const handleNavigation = (page) => {
+    console.log(`Navigating to ${page}`); // Ganti ini dengan logika navigasi yang sesuai
+    // Contoh: jika menggunakan react-navigation
+    // navigation.navigate(page);
   };
 
   return (
     <View style={styles.container}>
       {/* Header */}
       <View style={styles.header}>
-        <FontAwesome name="arrow-left" size={24} color="gray" />
-        <Text style={styles.headerText}>Anonim</Text>
+        <TouchableOpacity>
+          <Icon name="arrow-left" size={24} color="#000" />
+        </TouchableOpacity>
+        <Text style={styles.headerTitle}>Anonim</Text>
+        <View style={{ width: 24 }} />
       </View>
 
       {/* Main Content */}
-      <View style={styles.featureContainer}>
-        <Text style={styles.featureText}>Fitur anonim</Text>
-        <Switch
-          trackColor={{ false: '#767577', true: '#81b0ff' }}
-          thumbColor={isEnabled ? '#f5dd4b' : '#f4f3f4'}
-          onValueChange={toggleSwitch}
-          value={isEnabled}
-        />
-        <Text style={styles.switchText}>{isEnabled ? 'On' : 'Off'}</Text>
-      </View>
-      <Text style={styles.descriptionText}>
-        Dengan mengaktifkan fitur anonim, informasi tentang anda tidak akan muncul pada saat pengisian evaluasi.
-      </Text>
-
-      {/* Footer */}
-      <View style={styles.footer}>
-        {['Beranda', 'Lainnya', 'Akademik', 'Pesan', 'Akun'].map((item, index) => (
-          <View key={index} style={styles.footerItem}>
-            <FontAwesome name={getIconName(item)} size={24} color={item === 'Akademik' ? 'yellow' : 'gray'} />
-            <Text style={styles.footerText}>{item}</Text>
+      <ScrollView contentContainerStyle={styles.content}>
+        <View style={styles.card}>
+          <View style={styles.cardHeader}>
+            <Text style={styles.cardTitle}>Fitur anonim</Text>
+            <TouchableOpacity
+              style={[
+                styles.customSwitch,
+                isAnonymEnabled ? styles.switchOn : styles.switchOff,
+              ]}
+              onPress={toggleSwitch}
+            >
+              <View
+                style={[
+                  styles.switchCircle,
+                  isAnonymEnabled ? styles.circleOn : styles.circleOff,
+                ]}
+              >
+                <Text style={styles.switchText}>
+                  {isAnonymEnabled ? "On" : "Off"}
+                </Text>
+              </View>
+            </TouchableOpacity>
           </View>
-        ))}
+        </View>
+
+        {/* Description Text */}
+        <View style={styles.descriptionContainer}>
+          <Text style={styles.cardText}>
+            Dengan mengaktifkan fitur anonim, informasi tentang anda tidak akan
+            muncul pada saat pengisian evaluasi.
+          </Text>
+        </View>
+      </ScrollView>
+
+      {/* Bottom Navigation */}
+      <View style={styles.bottomNav}>
+        <TouchableOpacity
+          onPress={() => handleNavigation("Beranda")}
+          style={styles.navItem}
+        >
+          <Icon name="home" size={24} color="#000" />
+          <Text style={styles.navText}>Beranda</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => handleNavigation("Lainnya")}
+          style={styles.navItem}
+        >
+          <Icon name="ellipsis-h" size={24} color="#000" />
+          <Text style={styles.navText}>Lainnya</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => handleNavigation("Akademik")}
+          style={styles.navItem}
+        >
+          <Icon name="graduation-cap" size={24} color="#FFD700" />
+          <Text style={[styles.navText, styles.navTextActive]}>Akademik</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => handleNavigation("Pesan")}
+          style={styles.navItem}
+        >
+          <Icon name="envelope" size={24} color="#000" />
+          <Text style={styles.navText}>Pesan</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => handleNavigation("Akun")}
+          style={styles.navItem}
+        >
+          <Icon name="user" size={24} color="#000" />
+          <Text style={styles.navText}>Akun</Text>
+        </TouchableOpacity>
       </View>
     </View>
   );
-};
-
-// Helper function to determine icon names based on footer items
-const getIconName = (item) => {
-  switch (item) {
-    case 'Beranda':
-      return 'home';
-    case 'Lainnya':
-      return 'ellipsis-h';
-    case 'Akademik':
-      return 'graduation-cap';
-    case 'Pesan':
-      return 'envelope';
-    case 'Akun':
-      return 'user';
-    default:
-      return 'circle'; // Default icon
-  }
-};
+}
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'white',
-    justifyContent: 'flex-start',
-    padding: 20,
+    justifyContent: "space-between",
+    backgroundColor: "#fff",
   },
   header: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingVertical: 16,
-    borderBottomWidth: 1,
-    borderColor: '#e0e0e0',
+    flexDirection: "row",
+    justifyContent: "flex-start",
+    alignItems: "center",
+    padding: 16,
   },
-  headerText: {
-    color: 'blue',
-    fontSize: 20,
-    fontWeight: 'bold',
-    marginLeft: 10,
+  headerTitle: {
+    fontSize: 20, // Ukuran font lebih besar
+    fontWeight: "bold", // Membuat teks tebal
+    marginLeft: 12,
+    color: "#3B82F6", // Warna biru
+    textShadowColor: "#aaa", // Warna bayangan
+    textShadowOffset: { width: 2, height: 2 }, // Offset bayangan
+    textShadowRadius: 3, // Radius bayangan
   },
-  featureContainer: {
-    backgroundColor: '#f0f0f0',
-    borderRadius: 30,
-    padding: 20,
-    width: '100%',
-    alignItems: 'center',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+  content: {
+    paddingHorizontal: 16,
+    paddingTop: 16,
+    flexGrow: 1,
+    alignItems: "center",
+  },
+  card: {
+    backgroundColor: "#fff",
+    borderRadius: 20,
+    padding: 16,
+    width: "95%",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 5,
+    elevation: 5,
     marginTop: 20,
   },
-  featureText: {
-    color: 'gray',
+  cardHeader: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  cardTitle: {
     fontSize: 16,
+    fontWeight: "500",
+  },
+  customSwitch: {
+    width: 50,
+    height: 25,
+    borderRadius: 25,
+    justifyContent: "center",
+    padding: 2,
+  },
+  switchOn: {
+    backgroundColor: "#81b0ff",
+  },
+  switchOff: {
+    backgroundColor: "#767577",
+  },
+  switchCircle: {
+    width: 23,
+    height: 23,
+    borderRadius: 12,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  circleOn: {
+    backgroundColor: "#f5dd4b",
+    marginLeft: 25,
+  },
+  circleOff: {
+    backgroundColor: "#f4f3f4",
+    marginLeft: 2,
   },
   switchText: {
-    color: 'black',
-    fontSize: 16,
-    marginLeft: 10, // Menambahkan margin kiri untuk memberi jarak dari switch
+    fontSize: 10,
+    color: "#000",
+    fontWeight: "bold",
   },
-  descriptionText: {
-    color: 'lightgray',
-    textAlign: 'center',
+  descriptionContainer: {
     marginTop: 20,
-    paddingHorizontal: 20,
+    paddingHorizontal: 16,
+    alignItems: "flex-start", // Mengatur agar teks rata kiri
   },
-  footer: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    width: '100%',
+  cardText: {
+    color: "#6b7280",
+    marginTop: 12,
+    fontSize: 14,
+    textAlign: "left", // Mengatur teks agar rata kiri
+  },
+  bottomNav: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+    paddingVertical: 8,
     borderTopWidth: 1,
-    borderColor: '#e0e0e0',
-    paddingVertical: 10,
-    position: 'absolute',
-    bottom: 0,
+    borderTopColor: "#e5e7eb",
+    backgroundColor: "#fff",
   },
-  footerItem: {
-    alignItems: 'center',
+  navItem: {
+    justifyContent: "center",
+    alignItems: "center",
   },
-  footerText: {
-    fontSize: 12,
-    color: 'gray',
+  navText: {
+    fontSize: 10,
+    color: "#000",
+  },
+  navTextActive: {
+    color: "#FFD700",
   },
 });
-
-export default AnonimApp;
