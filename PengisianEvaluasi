@@ -1,0 +1,214 @@
+import React, { useState } from 'react';
+import { View, Text, StyleSheet, TouchableOpacity, Alert, Image } from 'react-native';
+import { Ionicons } from '@expo/vector-icons'; // Pastikan kamu menginstall @expo/vector-icons
+
+const LecturerEvaluation = ({ navigation }) => {
+  const [selectedOption, setSelectedOption] = useState(null);
+
+  const handleOptionPress = (option) => {
+    setSelectedOption(option);
+  };
+
+  const handleSubmit = () => {
+    if (selectedOption) {
+      Alert.alert('Terima Kasih!', `Anda memilih: ${selectedOption}`);
+    } else {
+      Alert.alert('Peringatan', 'Silakan pilih salah satu opsi.');
+    }
+  };
+
+  return (
+    <View style={styles.container}>
+      {/* Menggabungkan tombol back dan teks dalam satu baris */}
+      <View style={styles.headerContainer}>
+        <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backArrow}>
+          <Ionicons name="arrow-back" size={28} color="black" />
+        </TouchableOpacity>
+        <Text style={styles.header}>
+          <Text style={styles.yellowText}>Pengisian</Text> <Text style={styles.blueText}>Evaluasi</Text>
+        </Text>
+      </View>
+
+      <View style={styles.lecturerCard}>
+        <Image
+          source={{ uri: 'https://via.placeholder.com/100' }} // URL placeholder untuk gambar profil kosong
+          style={styles.profileImage}
+        />
+        <View style={styles.lecturerInfo}>
+          <Text style={styles.lecturerName}>Rizkyllah, M.Kom</Text>
+          <Text style={styles.lecturerCourse}>Teori Basis Data II</Text>
+          <Text style={styles.lecturerDetails}>Dosen Sistem Informasi 2022 - sekarang</Text>
+        </View>
+      </View>
+
+      <Text style={styles.question}>
+        Apakah materi disampaikan dengan jelas dan mudah dipahami?
+      </Text>
+
+      {/* Memberi spasi antara teks dan tombol */}
+      <View style={styles.spacer} />
+
+      <TouchableOpacity
+        style={[styles.optionButton, selectedOption === 'Sangat Setuju' && styles.selectedOption]}
+        onPress={() => handleOptionPress('Sangat Setuju')}
+      >
+        <Text style={styles.optionText}>Sangat Setuju</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity
+        style={[styles.optionButton, selectedOption === 'Setuju' && styles.selectedOption]}
+        onPress={() => handleOptionPress('Setuju')}
+      >
+        <Text style={styles.optionText}>Setuju</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity
+        style={[styles.optionButton, selectedOption === 'Tidak Setuju' && styles.selectedOption]}
+        onPress={() => handleOptionPress('Tidak Setuju')}
+      >
+        <Text style={styles.optionText}>Tidak Setuju</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity
+        style={[styles.optionButton, selectedOption === 'Sangat Tidak Setuju' && styles.selectedOption]}
+        onPress={() => handleOptionPress('Sangat Tidak Setuju')}
+      >
+        <Text style={styles.optionText}>Sangat Tidak Setuju</Text>
+      </TouchableOpacity>
+
+      {/* Kontainer untuk menampung tombol Back dan Submit agar sejajar */}
+      <View style={styles.bottomButtonsContainer}>
+        <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backCircle}>
+          <Ionicons name="arrow-back" size={24} color="white" />
+        </TouchableOpacity>
+
+        <TouchableOpacity style={styles.submitButton} onPress={handleSubmit}>
+          <Text style={styles.submitText}>Submit</Text>
+        </TouchableOpacity>
+      </View>
+    </View>
+  );
+};
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 20,
+    backgroundColor: '#fff',
+  },
+  // Kontainer untuk menyatukan tombol back dan header agar sejajar secara horizontal
+  headerContainer: {
+    flexDirection: 'row', // Menyusun elemen dalam satu baris
+    alignItems: 'center', // Menyelaraskan secara vertikal
+    marginBottom: 25, // Memberikan jarak antara header dan konten lainnya
+    marginTop: 40, // Margin atas untuk menyelaraskan keseluruhan header
+  },
+  backArrow: {
+    marginRight: 10, // Memberi jarak antara tombol back dan teks
+  },
+  header: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    color: '#333',
+  },
+  yellowText: {
+    color: '#FFC727', // Warna kuning untuk "Pengisian"
+  },
+  blueText: {
+    color: '#3498DB', // Warna biru untuk "Evaluasi"
+  },
+  lecturerCard: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: 'linear-gradient(to right, #E0E0E0, #FFFFFF)', // Gradasi dari abu-abu muda ke putih
+    padding: 20,
+    borderRadius: 20,
+    marginBottom: 20,
+    borderWidth: 1,
+    backgroundColor: '#f5f5f5',
+  },
+  profileImage: {
+    width: 90,
+    height: 90,
+    borderRadius: 50, // Membuat gambar berbentuk bulat
+    marginRight: 25,
+  },
+  lecturerInfo: {
+    flex: 1,
+    justifyContent: 'center',
+  },
+  lecturerName: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#333',
+    textAlign: 'left', // Teks rata kiri
+    marginBottom: 5,
+  },
+  lecturerCourse: {
+    fontSize: 16,
+    color: '#555',
+    marginBottom: 5,
+    textAlign: 'left', // Teks rata kiri
+  },
+  lecturerDetails: {
+    fontSize: 10.8,
+    color: '#888',
+    textAlign: 'left', // Teks rata kiri
+  },
+  question: {
+    fontSize: 18,
+    marginTop: 20,
+    marginBottom: 15,
+    textAlign: 'center',
+    color: '#333',
+    marginLeft: 20,
+    marginRight: 25,
+  },
+  spacer: {
+    marginBottom: 15, // Spasi antara pertanyaan dan tombol opsi
+  },
+  optionButton: {
+    backgroundColor: '#225580', // Warna tombol opsi default (biru gelap)
+    padding: 15,
+    borderRadius: 50,
+    marginBottom: 10,
+    alignItems: 'center',
+  },
+  optionText: {
+    color: '#fff',
+    fontWeight: 'bold',
+    fontSize: 16,
+  },
+  selectedOption: {
+    backgroundColor: '#ffc727', // Warna kuning untuk opsi yang dipilih
+  },
+  bottomButtonsContainer: {
+    flexDirection: 'row', // Menyusun tombol dalam baris
+    justifyContent: 'space-between', // Memberikan ruang antara tombol Back dan Submit
+    alignItems: 'center',
+    marginTop: 40,
+  },
+  backCircle: {
+    backgroundColor: '#ffc727', // Warna lingkaran kuning
+    padding: 15,
+    borderRadius: 50,
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: 60,
+    height: 60,
+  },
+  submitButton: {
+    backgroundColor: '#3498DB', // Warna biru terang untuk tombol submit
+    padding: 10,
+    borderRadius: 20,
+    alignItems: 'center',
+    width: 100, // Ukuran tombol Submit
+  },
+  submitText: {
+    color: '#fff',
+    fontWeight: 'bold',
+    fontSize: 16,
+  },
+});
+
+export default LecturerEvaluation;
