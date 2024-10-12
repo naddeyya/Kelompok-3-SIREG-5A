@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
 
-const ProfilDosen = () => {
+const ProfilDosen = ({ navigation }) => {
   const [expandedSection, setExpandedSection] = useState(null);
 
   const toggleSection = (section) => {
@@ -11,23 +11,19 @@ const ProfilDosen = () => {
 
   return (
     <View style={styles.container}>
-      <View style={styles.statusBar}>
-        <View style={styles.left}>
-          <FontAwesome name="signal" size={16} color="#fff" />
-          <FontAwesome name="wifi" size={16} color="#fff" />
-        </View>
-        <Text style={styles.center}>9:41 AM</Text>
-        <View style={styles.right}>
-          <FontAwesome name="battery-full" size={16} color="#fff" />
-        </View>
-      </View>
-      <View style={styles.profileHeader}>
-        <TouchableOpacity>
-          <FontAwesome name="arrow-left" size={24} color="white" />
+      {/* Header */}
+      <View style={styles.header}>
+        <TouchableOpacity onPress={() => navigation.goBack()}>
+          <FontAwesome name="arrow-left" size={24} color="black" />
         </TouchableOpacity>
-        <Text style={styles.title}>
-          Profil <Text style={styles.subtitle}>Dosen</Text>
+        <Text style={styles.headerTitle}>
+          <Text style={styles.highlightYellow}>Profil </Text>
+          <Text style={styles.highlightBlue}>Dosen</Text>
         </Text>
+      </View>
+
+      {/* Profile Info */}
+      <View style={styles.profileHeader}>
         <View style={styles.profilePicContainer}>
           <FontAwesome name="user" size={60} color="white" />
         </View>
@@ -37,6 +33,8 @@ const ProfilDosen = () => {
           <Text style={styles.status}>Dosen Sistem Informasi 2022-sekarang</Text>
         </View>
       </View>
+
+      {/* Accordion Sections */}
       <ScrollView style={styles.sections}>
         {['Informasi Pribadi', 'Riwayat Pendidikan', 'Riwayat Pekerjaan', 'Publikasi Karya'].map((section, index) => (
           <View key={index}>
@@ -61,42 +59,29 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#F7FAFC',
   },
-  statusBar: {
-    height: 44,
-    backgroundColor: '#007AFF',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingHorizontal: 10,
-    color: '#fff',
-    fontSize: 12,
-  },
-  left: {
+  header: {
     flexDirection: 'row',
     alignItems: 'center',
+    padding: 16,
+    backgroundColor: 'white',
+    elevation: 3,
   },
-  center: {
-    color: '#fff',
-    fontSize: 12,
+  headerTitle: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginLeft: 8,
   },
-  right: {
-    flexDirection: 'row',
-    alignItems: 'center',
+  highlightYellow: {
+    color: '#FBBF24',
+  },
+  highlightBlue: {
+    color: '#1E40AF',
   },
   profileHeader: {
     backgroundColor: '#4A90E2',
     padding: 24,
     alignItems: 'center',
     position: 'relative',
-  },
-  title: {
-    color: '#FFD700',
-    fontSize: 24,
-    fontWeight: 'bold',
-    textAlign: 'center',
-  },
-  subtitle: {
-    color: 'white',
   },
   profilePicContainer: {
     marginTop: 16,
