@@ -1,17 +1,62 @@
-import React from 'react';
-import { View, Text, TextInput, TouchableOpacity, SafeAreaView, StyleSheet } from 'react-native';
-import { FontAwesome } from '@expo/vector-icons';
+import React from "react";
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  SafeAreaView,
+  StyleSheet,
+} from "react-native";
+import { FontAwesome } from "@expo/vector-icons";
+import { NavigationContainer } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
 
-export default function App() {
+// Komponen untuk tampilan Anonim
+const Anonim = () => {
+  return (
+    <View style={styles.container}>
+      <Text>Ini adalah tampilan Anonim</Text>
+    </View>
+  );
+};
+
+// Komponen untuk tampilan Pencarian Dosen
+const PencarianDosen = () => {
+  return (
+    <View style={styles.container}>
+      <Text>Ini adalah tampilan Pencarian Dosen</Text>
+    </View>
+  );
+};
+
+// Komponen untuk tampilan Pengisian Evaluasi
+const PengisianEvaluasi = () => {
+  return (
+    <View style={styles.container}>
+      <Text>Ini adalah tampilan Pengisian Evaluasi</Text>
+    </View>
+  );
+};
+
+// Komponen Pengisian
+const Pengisian = ({ navigation }) => {
   return (
     <SafeAreaView style={styles.container}>
+      {/* TeachTrack Title */}
+      <View style={styles.titleContainer}>
+        <Text style={styles.titleTeach}>Teach</Text>
+        <Text style={styles.titleTrack}>Track</Text>
+      </View>
+
       {/* Search Bar */}
       <View style={styles.searchBar}>
-        <FontAwesome name="search" size={20} color="gray" style={styles.searchIcon} />
-        <TextInput
-          placeholder="Search"
-          style={styles.input}
+        <FontAwesome
+          name="search"
+          size={20}
+          color="gray"
+          style={styles.searchIcon}
         />
+        <TextInput placeholder="Search" style={styles.input} />
       </View>
 
       {/* Navigation Tabs */}
@@ -29,15 +74,24 @@ export default function App() {
 
       {/* Content Cards */}
       <View style={styles.cards}>
-        <TouchableOpacity style={styles.card}>
+        <TouchableOpacity
+          style={styles.card}
+          onPress={() => navigation.navigate("Anonim")}
+        >
           <Text style={styles.cardText}>Anonim</Text>
           <View style={styles.cardIcon}></View>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.card}>
+        <TouchableOpacity
+          style={styles.card}
+          onPress={() => navigation.navigate("PencarianDosen")}
+        >
           <Text style={styles.cardText}>Pencarian Dosen</Text>
           <View style={styles.cardIcon}></View>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.card}>
+        <TouchableOpacity
+          style={styles.card}
+          onPress={() => navigation.navigate("PengisianEvaluasi")}
+        >
           <Text style={styles.cardText}>Pengisian Evaluasi</Text>
           <View style={styles.cardIcon}></View>
         </TouchableOpacity>
@@ -55,7 +109,7 @@ export default function App() {
         </TouchableOpacity>
         <TouchableOpacity style={styles.navItem}>
           <FontAwesome name="graduation-cap" size={24} color="yellow" />
-          <Text style={[styles.navText, { color: 'yellow' }]}>Akademik</Text>
+          <Text style={[styles.navText, { color: "yellow" }]}>Akademik</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.navItem}>
           <FontAwesome name="envelope" size={24} color="gray" />
@@ -68,21 +122,57 @@ export default function App() {
       </View>
     </SafeAreaView>
   );
+};
+
+// Pengaturan Stack Navigator
+const Stack = createStackNavigator();
+
+export default function App() {
+  return (
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen name="Pengisian" component={Pengisian} />
+        <Stack.Screen name="Anonim" component={Anonim} />
+        <Stack.Screen name="PencarianDosen" component={PencarianDosen} />
+        <Stack.Screen name="PengisianEvaluasi" component={PengisianEvaluasi} />
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
 }
 
+// Styling
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: "#fff",
+  },
+  titleContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginTop: 10,
+    marginBottom: 10,
+    paddingLeft: 16, // Mengatur posisi teks ke kiri
+  },
+  titleTeach: {
+    marginTop: 10,
+    fontSize: 24,
+    fontWeight: "bold",
+    color: "#fcd34d", // Warna kuning untuk Teach
+  },
+  titleTrack: {
+    marginTop: 10,
+    fontSize: 24,
+    fontWeight: "bold",
+    color: "#1e3a8a", // Warna biru untuk Track
   },
   searchBar: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     paddingHorizontal: 16,
     marginTop: 10,
   },
   searchIcon: {
-    position: 'absolute',
+    position: "absolute",
     left: 24,
     top: 12,
   },
@@ -91,68 +181,68 @@ const styles = StyleSheet.create({
     paddingLeft: 40,
     paddingVertical: 10,
     borderWidth: 1,
-    borderColor: '#ccc',
+    borderColor: "#ccc",
     borderRadius: 50,
-    backgroundColor: '#f9f9f9',
+    backgroundColor: "#f9f9f9",
   },
   tabs: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
+    flexDirection: "row",
+    justifyContent: "space-around",
     marginTop: 20,
   },
   tabText: {
-    color: 'gray',
+    color: "gray",
     paddingVertical: 10,
     fontSize: 16,
   },
   activeTab: {
-    color: '#3498db',
+    color: "#3498db",
     borderBottomWidth: 2,
-    borderBottomColor: '#3498db',
+    borderBottomColor: "#3498db",
   },
   cards: {
     paddingHorizontal: 16,
     marginTop: 20,
   },
   card: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    backgroundColor: '#dbeafe',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    backgroundColor: "#dbeafe",
     padding: 20,
     borderRadius: 50,
     marginBottom: 16,
-    shadowColor: '#000',
+    shadowColor: "#000",
     shadowOpacity: 0.1,
     shadowRadius: 10,
   },
   cardText: {
-    color: '#1e3a8a',
+    color: "#1e3a8a",
     fontSize: 18,
   },
   cardIcon: {
     width: 40,
     height: 40,
-    backgroundColor: '#fcd34d',
+    backgroundColor: "#fcd34d",
     borderRadius: 50,
   },
   bottomNav: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "space-around",
+    alignItems: "center",
     paddingVertical: 10,
     borderTopWidth: 1,
-    borderTopColor: '#ccc',
-    backgroundColor: '#fff',
-    position: 'absolute',
+    borderTopColor: "#ccc",
+    backgroundColor: "#fff",
+    position: "absolute",
     bottom: 0,
-    width: '100%',
+    width: "100%",
   },
   navItem: {
-    alignItems: 'center',
+    alignItems: "center",
   },
   navText: {
-    color: 'gray',
+    color: "gray",
     fontSize: 12,
     marginTop: 4,
   },
