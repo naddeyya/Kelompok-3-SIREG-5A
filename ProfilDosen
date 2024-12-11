@@ -1,20 +1,34 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
 
 const ProfilDosen = ({ navigation }) => {
   const [expandedSection, setExpandedSection] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+  
+  // Simulate a fetch operation for data loading
+  useEffect(() => {
+    setTimeout(() => setIsLoading(false), 2000);  // Mock loading delay
+  }, []);
 
   const toggleSection = (section) => {
     setExpandedSection(expandedSection === section ? null : section);
   };
 
+  if (isLoading) {
+    return (
+      <View style={styles.loadingContainer}>
+        <Text>Loading...</Text>
+      </View>
+    );
+  }
+
   return (
     <View style={styles.container}>
       {/* Header */}
       <View style={styles.header}>
-        <TouchableOpacity onPress={() => navigation.goBack()}>
-          <FontAwesome name="arrow-left" size={24} color="black" />
+        <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
+          <FontAwesome name="arrow-left" size={24} color="gray" />
         </TouchableOpacity>
         <Text style={styles.headerTitle}>
           <Text style={styles.highlightYellow}>Profil </Text>
@@ -25,7 +39,7 @@ const ProfilDosen = ({ navigation }) => {
       {/* Profile Info */}
       <View style={styles.profileHeader}>
         <View style={styles.profilePicContainer}>
-          <FontAwesome name="user" size={60} color="white" />
+          <FontAwesome name="user" size={85} color="white" />
         </View>
         <View style={styles.profileInfo}>
           <Text style={styles.name}>Rizkyllah, M.Kom</Text>
@@ -38,18 +52,35 @@ const ProfilDosen = ({ navigation }) => {
       <ScrollView style={styles.sections}>
         {['Informasi Pribadi', 'Riwayat Pendidikan', 'Riwayat Pekerjaan', 'Publikasi Karya'].map((section, index) => (
           <View key={index}>
-            <TouchableOpacity style={styles.sectionButton} onPress={() => toggleSection(section)}>
+            <TouchableOpacity
+              style={styles.sectionButton}
+              onPress={() => toggleSection(section)}
+              accessibilityLabel={`Toggle ${section} section`}
+            >
               <Text style={styles.sectionTitle}>{section}</Text>
-              <FontAwesome name={expandedSection === section ? 'chevron-up' : 'chevron-down'} size={20} />
+              <FontAwesome
+                name={expandedSection === section ? 'chevron-up' : 'chevron-down'}
+                size={20}
+              />
             </TouchableOpacity>
             {expandedSection === section && (
               <View style={styles.sectionContent}>
-                <Text>{section} content goes here...</Text>
+                <Text>
+                  {section === 'Informasi Pribadi' && 'Berlatar pendidikan magister komputer, dan telah mengajar di Program Studi Sistem Informasi sejak tahun 2022. Fokus utama pada analisis sistem, pengembangan perangkat lunak, dan manajemen data.'}
+                  {section === 'Riwayat Pendidikan' && 'Universitas Sriwijaya 2009, Universitas Teknologi Malaysia 2015'}
+                  {section === 'Riwayat Pekerjaan' && 'Sistem Analis di PT Unilever 2018-2020, Manager IT di Amazon 2021-2022, Dosen Sistem Informasi 2022-sekarang'}
+                  {section === 'Publikasi Karya' && 'International Journal of Decision Support Systems, Scopus Indexed Journal of Logistics and Technology, Journal of Information Systems and E-Government'}
+                </Text>
               </View>
             )}
           </View>
         ))}
       </ScrollView>
+
+      {/* Evaluation Button */}
+      <TouchableOpacity style={styles.evaluationButton} onPress={() => navigation.navigate('PengisianEvaluasi')}>
+        <Text style={styles.evaluationButtonText}>Isi Evaluasi</Text>
+      </TouchableOpacity>
     </View>
   );
 };
@@ -59,26 +90,34 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#F7FAFC',
   },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   header: {
     flexDirection: 'row',
     alignItems: 'center',
     padding: 16,
     backgroundColor: 'white',
     elevation: 3,
+    marginTop: 20, // Meningkatkan margin atas agar lebih ke bawah
+  },
+  backButton: {
+    marginRight: 16, // Jarak antara tombol dan judul
   },
   headerTitle: {
     fontSize: 24,
     fontWeight: 'bold',
-    marginLeft: 8,
   },
   highlightYellow: {
     color: '#FBBF24',
   },
   highlightBlue: {
-    color: '#1E40AF',
+    color: '#003366',
   },
   profileHeader: {
-    backgroundColor: '#4A90E2',
+    backgroundColor: '#4a8cc4',
     padding: 24,
     alignItems: 'center',
     position: 'relative',
@@ -95,13 +134,13 @@ const styles = StyleSheet.create({
   profileInfo: {
     marginTop: 16,
     backgroundColor: 'rgba(255, 255, 255, 0.3)',
-    padding: 16,
-    borderRadius: 10,
+    padding: 20,
+    borderRadius: 15,
     alignItems: 'center',
   },
   name: {
     color: 'white',
-    fontSize: 18,
+    fontSize: 21,
     fontWeight: 'bold',
   },
   degree: {
@@ -114,7 +153,7 @@ const styles = StyleSheet.create({
   },
   sections: {
     flex: 1,
-    padding: 10,
+    padding: 18,
   },
   sectionButton: {
     padding: 15,
@@ -131,9 +170,24 @@ const styles = StyleSheet.create({
     color: 'black',
   },
   sectionContent: {
-    padding: 15,
+    padding: 20,
     backgroundColor: '#F3F4F6',
     borderRadius: 10,
+  },
+  evaluationButton: {
+    backgroundColor: '#FBBF24',
+    paddingVertical: 12,
+    paddingHorizontal: 20,
+    borderRadius: 30,
+    alignItems: 'center',
+    justifyContent: 'center',
+    margin: 16,
+    elevation: 3,
+  },
+  evaluationButtonText: {
+    color: '#003366',
+    fontSize: 16,
+    fontWeight: 'bold',
   },
 });
 
