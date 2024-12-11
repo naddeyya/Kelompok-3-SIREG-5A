@@ -1,249 +1,139 @@
+//pengisian 1
 import React from "react";
 import {
   View,
   Text,
   TextInput,
-  TouchableOpacity,
-  SafeAreaView,
   StyleSheet,
+  TouchableOpacity,
+  ScrollView,
 } from "react-native";
-import { FontAwesome } from "@expo/vector-icons";
-import { NavigationContainer } from "@react-navigation/native";
-import { createStackNavigator } from "@react-navigation/stack";
+import { useNavigation } from "@react-navigation/native";
+import Icon from "react-native-vector-icons/Ionicons";
 
-// Komponen untuk tampilan Anonim
-const Anonim = () => {
+export default function Pengisian1() {
+  const navigation = useNavigation();
+
   return (
-    <View style={styles.container}>
-      <Text>Ini adalah tampilan Anonim</Text>
-    </View>
-  );
-};
-
-// Komponen untuk tampilan Pencarian Dosen
-const PencarianDosen = () => {
-  return (
-    <View style={styles.container}>
-      <Text>Ini adalah tampilan Pencarian Dosen</Text>
-    </View>
-  );
-};
-
-// Komponen untuk tampilan Pengisian Evaluasi
-const PengisianEvaluasi = () => {
-  return (
-    <View style={styles.container}>
-      <Text>Ini adalah tampilan Pengisian Evaluasi</Text>
-    </View>
-  );
-};
-
-// Komponen Pengisian
-const Pengisian = ({ navigation }) => {
-  return (
-    <SafeAreaView style={styles.container}>
-      {/* TeachTrack Title */}
-      <View style={styles.titleContainer}>
-        <Text style={styles.titleTeach}>Teach</Text>
-        <Text style={styles.titleTrack}>Track</Text>
-      </View>
-
-      {/* Search Bar */}
-      <View style={styles.searchBar}>
-        <FontAwesome
-          name="search"
-          size={20}
-          color="gray"
-          style={styles.searchIcon}
-        />
-        <TextInput placeholder="Search" style={styles.input} />
+    <ScrollView style={styles.container}>
+      {/* Header */}
+      <View style={styles.header}>
+        <Text style={styles.logo}>TeachTrack</Text>
+        <View style={styles.searchContainer}>
+          <TextInput style={styles.searchInput} placeholder="Search" />
+          <TouchableOpacity style={styles.searchButton}>
+            <Icon name="search" size={24} color="#000" />
+          </TouchableOpacity>
+        </View>
       </View>
 
       {/* Navigation Tabs */}
-      <View style={styles.tabs}>
-        <TouchableOpacity>
-          <Text style={styles.tabText}>BERANDA</Text>
+      <View style={styles.navTabs}>
+        <TouchableOpacity onPress={() => navigation.navigate("Beranda")}>
+          <Text style={styles.navText}>BERANDA</Text>
         </TouchableOpacity>
-        <TouchableOpacity>
-          <Text style={[styles.tabText, styles.activeTab]}>PENGISIAN</Text>
-        </TouchableOpacity>
-        <TouchableOpacity>
-          <Text style={styles.tabText}>RIWAYAT</Text>
+        <Text style={[styles.navText, styles.activeTab]}>PENGISIAN</Text>
+        <TouchableOpacity onPress={() => navigation.navigate("Riwayat")}>
+          <Text style={styles.navText}>RIWAYAT</Text>
         </TouchableOpacity>
       </View>
 
-      {/* Content Cards */}
-      <View style={styles.cards}>
-        <TouchableOpacity
-          style={styles.card}
-          onPress={() => navigation.navigate("Anonim")}
-        >
-          <Text style={styles.cardText}>Anonim</Text>
-          <View style={styles.cardIcon}></View>
-        </TouchableOpacity>
+      {/* Main Content */}
+      <View style={styles.mainContent}>
         <TouchableOpacity
           style={styles.card}
           onPress={() => navigation.navigate("PencarianDosen")}
         >
           <Text style={styles.cardText}>Pencarian Dosen</Text>
-          <View style={styles.cardIcon}></View>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.card}
-          onPress={() => navigation.navigate("PengisianEvaluasi")}
-        >
-          <Text style={styles.cardText}>Pengisian Evaluasi</Text>
-          <View style={styles.cardIcon}></View>
         </TouchableOpacity>
       </View>
-
-      {/* Bottom Navigation */}
-      <View style={styles.bottomNav}>
-        <TouchableOpacity style={styles.navItem}>
-          <FontAwesome name="home" size={24} color="gray" />
-          <Text style={styles.navText}>Beranda</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.navItem}>
-          <FontAwesome name="ellipsis-h" size={24} color="gray" />
-          <Text style={styles.navText}>Lainnya</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.navItem}>
-          <FontAwesome name="graduation-cap" size={24} color="yellow" />
-          <Text style={[styles.navText, { color: "yellow" }]}>Akademik</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.navItem}>
-          <FontAwesome name="envelope" size={24} color="gray" />
-          <Text style={styles.navText}>Pesan</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.navItem}>
-          <FontAwesome name="user" size={24} color="gray" />
-          <Text style={styles.navText}>Akun</Text>
-        </TouchableOpacity>
-      </View>
-    </SafeAreaView>
-  );
-};
-
-// Pengaturan Stack Navigator
-const Stack = createStackNavigator();
-
-export default function App() {
-  return (
-    <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen name="Pengisian" component={Pengisian} />
-        <Stack.Screen name="Anonim" component={Anonim} />
-        <Stack.Screen name="PencarianDosen" component={PencarianDosen} />
-        <Stack.Screen name="PengisianEvaluasi" component={PengisianEvaluasi} />
-      </Stack.Navigator>
-    </NavigationContainer>
+    </ScrollView>
   );
 }
 
-// Styling
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: "#f0f4ff",
   },
-  titleContainer: {
-    flexDirection: "row",
+  header: {
+    padding: 16,
+    marginTop: 60,
+    backgroundColor: "#f0f4ff",
     alignItems: "center",
-    marginTop: 10,
-    marginBottom: 10,
-    paddingLeft: 16, // Mengatur posisi teks ke kiri
+    borderBottomColor: "#e0e0e0",
   },
-  titleTeach: {
-    marginTop: 10,
-    fontSize: 24,
+  logo: {
+    fontSize: 28,
     fontWeight: "bold",
-    color: "#fcd34d", // Warna kuning untuk Teach
+    color: "#003366",
+    marginBottom: 19,
   },
-  titleTrack: {
+  searchContainer: {
+    flexDirection: "row",
+    alignItems: "center",
     marginTop: 10,
-    fontSize: 24,
-    fontWeight: "bold",
-    color: "#1e3a8a", // Warna biru untuk Track
-  },
-  searchBar: {
-    flexDirection: "row",
-    alignItems: "center",
-    paddingHorizontal: 16,
-    marginTop: 10,
-  },
-  searchIcon: {
-    position: "absolute",
-    left: 24,
-    top: 12,
-  },
-  input: {
-    flex: 1,
-    paddingLeft: 40,
-    paddingVertical: 10,
-    borderWidth: 1,
-    borderColor: "#ccc",
-    borderRadius: 50,
-    backgroundColor: "#f9f9f9",
-  },
-  tabs: {
-    flexDirection: "row",
-    justifyContent: "space-around",
-    marginTop: 20,
-  },
-  tabText: {
-    color: "gray",
-    paddingVertical: 10,
-    fontSize: 16,
-  },
-  activeTab: {
-    color: "#3498db",
-    borderBottomWidth: 2,
-    borderBottomColor: "#3498db",
-  },
-  cards: {
-    paddingHorizontal: 16,
-    marginTop: 20,
-  },
-  card: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    backgroundColor: "#dbeafe",
-    padding: 20,
-    borderRadius: 50,
-    marginBottom: 16,
-    shadowColor: "#000",
-    shadowOpacity: 0.1,
-    shadowRadius: 10,
-  },
-  cardText: {
-    color: "#1e3a8a",
-    fontSize: 18,
-  },
-  cardIcon: {
-    width: 40,
-    height: 40,
-    backgroundColor: "#fcd34d",
-    borderRadius: 50,
-  },
-  bottomNav: {
-    flexDirection: "row",
-    justifyContent: "space-around",
-    alignItems: "center",
-    paddingVertical: 10,
-    borderTopWidth: 1,
-    borderTopColor: "#ccc",
-    backgroundColor: "#fff",
-    position: "absolute",
-    bottom: 0,
     width: "100%",
   },
-  navItem: {
+  searchInput: {
+    height: 40,
+    width: "85%",
+    borderColor: "#ccc",
+    borderWidth: 1,
+    borderRadius: 8,
+    paddingHorizontal: 10,
+    backgroundColor: "#f9f9f9",
+    fontSize: 16,
+  },
+  searchButton: {
+    marginLeft: 10,
+    padding: 10,
+    backgroundColor: "#f0f4ff",
+    borderRadius: 8,
+    justifyContent: "center",
     alignItems: "center",
   },
+  navTabs: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+    backgroundColor: "#f0f4ff",
+    paddingVertical: 8,
+    borderBottomWidth: 1,
+    borderBottomColor: "#e0e0e0",
+  },
   navText: {
-    color: "gray",
-    fontSize: 12,
-    marginTop: 4,
+    fontSize: 16,
+    color: "#333",
+    fontWeight: "bold",
+  },
+  activeTab: {
+    color: "#FDCB58",
+    borderBottomWidth: 2,
+    borderBottomColor: "#ffa726",
+    paddingBottom: 4,
+  },
+  mainContent: {
+    paddingHorizontal: 16,
+    paddingVertical: 20,
+  },
+  card: {
+    backgroundColor: "#003366",
+    borderRadius: 17,
+    marginBottom: 16,
+    paddingVertical: 22,
+    paddingHorizontal: 15,
+    elevation: 2,
+    shadowColor: "#000",
+    shadowOffset: { width: 2, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 2,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+  },
+  cardText: {
+    fontSize: 16,
+    fontWeight: "bold",
+    color: "lightgray",
   },
 });
