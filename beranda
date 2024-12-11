@@ -1,3 +1,4 @@
+import React from "react";
 import { StatusBar } from "expo-status-bar";
 import {
   Image,
@@ -6,91 +7,90 @@ import {
   View,
   TextInput,
   TouchableOpacity,
+  ScrollView,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
 
-export default function App() {
+export default function Beranda() {
+  const navigation = useNavigation();
+
   return (
     <View style={styles.container}>
-      {/* Header */}
-      <View style={styles.header}>
-        <Text style={styles.title}>TeachTrack</Text>
-        <View style={styles.navTabs}>
-          <Text style={styles.activeNavTabText}>BERANDA</Text>
-          <Text style={styles.navTabText}>PENGISIAN</Text>
-          <Text style={styles.navTabText}>RIWAYAT</Text>
+      <ScrollView contentContainerStyle={styles.scrollContainer}>
+        {/* Header */}
+        <View style={styles.header}>
+          <Text style={styles.title}>TeachTrack</Text>
+          <View style={styles.navTabs}>
+            <View style={styles.navTabContainer}>
+              <Text style={styles.navTabTextActive}>BERANDA</Text>
+              <View style={styles.activeTabIndicator} />
+            </View>
+            <Text
+              style={styles.navTabText}
+              onPress={() => navigation.navigate("Pengisian1")}
+            >
+              PENGISIAN
+            </Text>
+            <Text
+              style={styles.navTabText}
+              onPress={() => navigation.navigate("Riwayat")}
+            >
+              RIWAYAT
+            </Text>
+          </View>
         </View>
-      </View>
 
-      {/* Search Bar */}
-      <View style={styles.searchContainer}>
-        <TextInput
-          style={styles.searchInput}
-          placeholder="Search"
-          placeholderTextColor="#888"
-        />
-        <Ionicons name="search" size={20} color="#888" />
-      </View>
-
-      {/* About Section */}
-      <View style={styles.aboutContainer}>
-        <Text style={styles.sectionTitle}>About</Text>
-        <Text style={styles.sectionText}>
-          TeachTrack merupakan fitur penilaian kinerja dosen. Fitur ini dibuat
-          guna mendukung dan mengevaluasi pengajaran yang lebih baik.
-        </Text>
-      </View>
-
-      {/* Reminder */}
-      <View style={styles.reminderContainer}>
-        <View style={styles.reminderDate}>
-          <Text style={styles.reminderDateText}>19</Text>
-          <Text style={styles.reminderMonthText}>APRIL</Text>
-        </View>
-        <Text style={styles.reminderText}>
-          Anda belum melakukan pengisian data. Lakukan sebelum tanggal tertera.
-        </Text>
-      </View>
-
-      {/* Evaluation Section */}
-      <View style={styles.evaluationContainer}>
-        <Text style={styles.welcomeText}>Halo, Nagita Ahmad</Text>
-        <View style={styles.evaluationRow}>
-          <Image
-            source={{
-              uri: "https://www.putler.com/wp-content/uploads/2020/09/XzAyODE4MTYuanBn.jpg",
-            }}
-            style={styles.userImage}
+        {/* Search Bar */}
+        <View style={styles.searchContainer}>
+          <TextInput
+            style={styles.searchInput}
+            placeholder="Search"
+            placeholderTextColor="#888"
           />
-          <TouchableOpacity style={styles.evaluationButton}>
-            <Text style={styles.evaluationButtonText}>Klik Disini</Text>
-          </TouchableOpacity>
+          <Ionicons name="search" size={30} color="#888" />
         </View>
-      </View>
 
-      {/* Navigation bar */}
-      <View style={styles.navbar}>
-        <View style={styles.navItem}>
-          <Ionicons name="home-outline" size={24} color="#003366" />
-          <Text style={styles.navTextActive}>Beranda</Text>
+        {/* Evaluation Section - dipindahkan ke bawah search bar */}
+        <View style={styles.evaluationContainer}>
+          <Text style={styles.welcomeText}>Halo, Aulia Epriyanti</Text>
+          <Text style={styles.remindtext}>Ingin melakukan pengisian form?</Text>
+          <View style={styles.evaluationRow}>
+            <Image
+              source={{
+                uri: "https://www.putler.com/wp-content/uploads/2020/09/XzAyODE4MTYuanBn.jpg",
+              }}
+              style={styles.userImage}
+            />
+            <TouchableOpacity
+              style={styles.evaluationButton}
+              onPress={() => navigation.navigate("PencarianDosen")} // Arahkan ke PencarianDosen
+            >
+              <Text style={styles.evaluationButtonText}>Klik Disini</Text>
+            </TouchableOpacity>
+          </View>
         </View>
-        <View style={styles.navItem}>
-          <Ionicons name="list-outline" size={24} color="#888" />
-          <Text style={styles.navText}>Lainnya</Text>
+
+        {/* About Section */}
+        <View style={styles.aboutContainer}>
+          <Text style={styles.sectionTitle}>About</Text>
+          <Text style={styles.sectionText}>
+            TeachTrack merupakan fitur penilaian kinerja dosen. Fitur ini dibuat
+            guna mendukung dan mengevaluasi pengajaran yang lebih baik.
+          </Text>
         </View>
-        <View style={styles.navItem}>
-          <Ionicons name="school-outline" size={24} color="#FDCB58" />
-          <Text style={[styles.navText, { color: "#FDCB58" }]}>Akademik</Text>
+
+        {/* Reminder */}
+        <View style={styles.reminderContainer}>
+          <View style={styles.reminderDate}>
+            <Text style={styles.reminderDateText}>19</Text>
+            <Text style={styles.reminderMonthText}>APRIL</Text>
+          </View>
+          <Text style={styles.reminderText}>
+            Anda belum melakukan pengisian data. Lakukan sebelum tanggal tertera.
+          </Text>
         </View>
-        <View style={styles.navItem}>
-          <Ionicons name="chatbubble-outline" size={24} color="#888" />
-          <Text style={styles.navText}>Pesan</Text>
-        </View>
-        <View style={styles.navItem}>
-          <Ionicons name="person-outline" size={24} color="#888" />
-          <Text style={styles.navText}>Akun</Text>
-        </View>
-      </View>
+      </ScrollView>
 
       <StatusBar style="auto" />
     </View>
@@ -100,45 +100,57 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#F1F5FA",
-    alignItems: "center",
+    backgroundColor: "#f0f4ff",
+  },
+  scrollContainer: {
     paddingTop: 50,
     paddingHorizontal: 20,
+    paddingBottom: 80,
   },
   header: {
     width: "100%",
     alignItems: "center",
-    marginBottom: 20,
+    marginBottom: 40,
   },
   title: {
-    fontSize: 24,
+    marginTop: 30,
+    fontSize: 28,
     fontWeight: "bold",
-    color: "#FDCB58",
-    fontFamily: "sans-serif-medium", // Adjusted font for similarity
+    color: "#003366",
+    fontFamily: "sans-serif-medium",
   },
   navTabs: {
     flexDirection: "row",
     justifyContent: "space-around",
     width: "100%",
-    marginTop: 10,
+    marginTop: 20,
+  },
+  navTabContainer: {
+    alignItems: "center",
   },
   navTabText: {
     fontSize: 16,
-    color: "#888",
+    color: "#333",
     fontWeight: "bold",
   },
-  activeNavTabText: {
+  navTabTextActive: {
     fontSize: 16,
-    color: "#003366",
+    color: "#FDCB58",
     fontWeight: "bold",
+  },
+  activeTabIndicator: {
+    height: 4,
+    backgroundColor: "#FDCB58", // Garis kuning
+    width: "100%",
+    marginTop: 5,
   },
   searchContainer: {
     flexDirection: "row",
     alignItems: "center",
     backgroundColor: "#fff",
     borderRadius: 10,
-    paddingHorizontal: 10,
-    paddingVertical: 8,
+    paddingHorizontal: 20,
+    paddingVertical: 12,
     width: "100%",
     marginBottom: 20,
     shadowColor: "#000",
@@ -151,10 +163,57 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: "#000",
   },
+  evaluationContainer: {
+    backgroundColor: "#003366",
+    borderRadius: 10,
+    padding: 20,
+    width: "100%",
+    marginBottom: 20,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 5,
+  },
+  welcomeText: {
+    fontSize: 20,
+    fontWeight: "bold",
+    fontFamily: "sans-serif-medium",
+    color: "#fff",
+    marginTop: 10,
+    marginBottom: 10,
+  },
+  evaluationRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    width: "100%",
+  },
+  userImage: {
+    width: 70,
+    height: 70,
+    borderRadius: 25,
+    marginRight: 30,
+    marginTop: 10,
+  },
+  remindtext: {
+    fontSize: 14,
+    color: "#999",
+  },
+  evaluationButton: {
+    backgroundColor: "#FDCB58",
+    borderRadius: 5,
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+  },
+  evaluationButtonText: {
+    color: "#003366",
+    fontWeight: "bold",
+  },
   aboutContainer: {
     backgroundColor: "#fff",
     borderRadius: 10,
-    padding: 20,
+    padding: 30,
     width: "100%",
     marginBottom: 20,
     shadowColor: "#000",
@@ -178,7 +237,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "#fff",
     borderRadius: 10,
-    padding: 15,
+    padding: 30,
     width: "100%",
     marginBottom: 20,
     shadowColor: "#000",
@@ -192,7 +251,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     marginRight: 15,
     alignItems: "center",
-    width: 60,
+    width: 70,
   },
   reminderDateText: {
     fontSize: 24,
@@ -207,75 +266,5 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: "#666",
     flex: 1,
-  },
-  evaluationContainer: {
-    backgroundColor: "#003366",
-    borderRadius: 10,
-    padding: 20,
-    width: "100%",
-    marginBottom: 20,
-    alignItems: "center",
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.2,
-    shadowRadius: 5,
-  },
-  welcomeText: {
-    fontSize: 16,
-    color: "#fff",
-    marginBottom: 10,
-  },
-  evaluationRow: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    width: "100%",
-  },
-  userImage: {
-    width: 50,
-    height: 50,
-    borderRadius: 25,
-    marginRight: 20,
-  },
-  evaluationButton: {
-    backgroundColor: "#FDCB58",
-    borderRadius: 5,
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-  },
-  evaluationButtonText: {
-    color: "#003366",
-    fontWeight: "bold",
-  },
-  navbar: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    width: "100%",
-    paddingVertical: 10,
-    borderTopColor: "#ccc",
-    borderTopWidth: 1,
-    backgroundColor: "#fff",
-    position: "absolute",
-    bottom: 0,
-    left: 0,
-    right: 0,
-    paddingHorizontal: 30,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: -2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 5,
-  },
-  navItem: {
-    alignItems: "center",
-  },
-  navText: {
-    fontSize: 12,
-    color: "#888",
-    marginTop: 2,
-  },
-  navTextActive: {
-    fontSize: 12,
-    color: "#003366",
-    marginTop: 2,
   },
 });
