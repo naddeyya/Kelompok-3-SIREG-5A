@@ -64,7 +64,7 @@ export default function Beranda() {
             />
             <TouchableOpacity
               style={styles.evaluationButton}
-              onPress={() => navigation.navigate("PencarianDosen")} // Arahkan ke PencarianDosen
+              onPress={() => navigation.navigate("PencarianDosen")} 
             >
               <Text style={styles.evaluationButtonText}>Klik Disini</Text>
             </TouchableOpacity>
