@@ -1,66 +1,87 @@
-import React from 'react';
-import { View, Text, TouchableOpacity, FlatList, StyleSheet, TextInput } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, TextInput, TouchableOpacity, FlatList, StyleSheet } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
 
-const dosenData = [
-  { id: '1', name: 'Rizkyllah, M.Kom', course: 'Magister Komputer', info: 'Dosen Sistem Informasi 2022-sekarang' },
-  { id: '2', name: 'Ayu Pratiwi, S.Kom, M.T', course: 'Magister Teknik', info: 'Dosen Teknik Informatika 2015-sekarang' },
-  { id: '3', name: 'Joko Susilo, Ph.D', course: 'Master of Philosophy', info: 'Dosen Sistem Komputer 2005-sekarang' },
-  { id: '4', name: 'Dr. Yusuf, M.T', course: 'Doktor Ilmu Komputer', info: 'Dosen Sistem Komputer 2005-sekarang' },
+const data = [
+  {
+    id: '1',
+    name: 'Rizkyllah, M.Kom',
+    title: 'Magister Komputer',
+    details: 'Dosen Sistem Informasi 2022-sekarang',
+  },
+  {
+    id: '2',
+    name: 'Ayu Pratiwi, S.Kom, M.T',
+    title: 'Magister Teknik',
+    details: 'Dosen Teknik Informatika 2015-sekarang',
+  },
+  {
+    id: '3',
+    name: 'Joko Susilo, Ph.D',
+    title: 'Master of Philosophy',
+    details: 'Dosen Sistem Komputer 2005-sekarang',
+  },
+  {
+    id: '4',
+    name: 'Dr. Yusuf, M.T',
+    title: 'Doktor Ilmu Komputer',
+    details: 'Dosen Sistem Komputer 2005-sekarang',
+  },
 ];
 
-const PencarianDosen = ({ navigation }) => {
-  const renderDosen = ({ item }) => (
-    <View style={styles.card}>
-      <View style={styles.iconContainer}>
-        <FontAwesome name="user" size={28} color="#1E40AF" />
-      </View>
-      <View style={styles.cardContent}>
-        <Text style={styles.cardTitle}>{item.name}</Text>
-        <Text style={styles.cardSubtitle}>{item.course}</Text>
-        <Text style={styles.cardInfo}>{item.info}</Text>
-        <TouchableOpacity onPress={() => navigation.navigate('ProfilDosen')}>
-          <Text style={styles.cardLink}>lihat profil</Text>
-        </TouchableOpacity>
-      </View>
-    </View>
+const PencarianDosen = () => {
+  const navigation = useNavigation();
+  const [searchQuery, setSearchQuery] = useState('');
+
+  // Filter data based on search query
+  const filteredData = data.filter(item =>
+    item.name.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   return (
     <View style={styles.container}>
       {/* Header */}
       <View style={styles.header}>
-        <FontAwesome name="arrow-left" size={24} color="black" />
-        <Text style={styles.headerTitle}>
-          <Text style={styles.highlightYellow}>Pencarian</Text> <Text style={styles.highlightBlue}>Dosen</Text>
+        <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
+          <FontAwesome name="arrow-left" size={24} color="gray" />
+        </TouchableOpacity>
+        <Text style={styles.headerText}>
+          <Text style={styles.highlight}>Pencarian</Text> <Text style={styles.highlightdosen}>Dosen</Text>
         </Text>
       </View>
 
-      {/* Search Bar */}
+      {/* Search Input */}
       <View style={styles.searchContainer}>
-        <FontAwesome name="search" size={18} color="#6B7280" style={styles.searchIcon} />
+        <FontAwesome name="search" size={20} color="gray" style={styles.searchIcon} />
         <TextInput
-          placeholder="Search"
           style={styles.searchInput}
+          placeholder="Search"
+          value={searchQuery}
+          onChangeText={setSearchQuery} // Update search query
         />
       </View>
 
       {/* List of Dosen */}
-      <Text style={styles.historyText}>History</Text>
       <FlatList
-        data={dosenData}
+        data={filteredData}
         keyExtractor={(item) => item.id}
-        renderItem={renderDosen}
+        renderItem={({ item }) => (
+          <View style={styles.card}>
+            <View style={styles.cardIcon}>
+              <FontAwesome name="user" size={24} color="gray" />
+            </View>
+            <View style={styles.cardContent}>
+              <Text style={styles.cardName}>{item.name}</Text>
+              <Text style={styles.cardTitle}>{item.title}</Text>
+              <Text style={styles.cardDetails}>{item.details}</Text>
+              <TouchableOpacity onPress={() => navigation.navigate('ProfilDosen', { dosenId: item.id })}>
+                <Text style={styles.profileLink}>lihat profil</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        )}
       />
-
-      {/* Bottom Navigation */}
-      <View style={styles.bottomNavigation}>
-        <FontAwesome name="home" size={24} color="#6B7280" />
-        <FontAwesome name="th-large" size={24} color="#6B7280" />
-        <FontAwesome name="graduation-cap" size={24} color="#FBBF24" />
-        <FontAwesome name="envelope" size={24} color="#6B7280" />
-        <FontAwesome name="user" size={24} color="#6B7280" />
-      </View>
     </View>
   );
 };
@@ -76,80 +97,75 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: 16,
   },
-  headerTitle: {
+  backButton: {
+    marginLeft: 16,
+    marginTop: 66,
+    padding: 8,
+  },
+  headerText: {
     fontSize: 24,
     fontWeight: 'bold',
-    marginLeft: 8,
+    marginLeft: 28,
+    marginTop: 70,
   },
-  highlightYellow: {
-    color: '#FBBF24',
+  highlight: {
+    color: '#FDCB58',
   },
-  highlightBlue: {
-    color: '#1E40AF',
+  highlightdosen: {
+    color: '#003366',
   },
   searchContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#F3F4F6',
-    paddingHorizontal: 10,
-    borderRadius: 30,
     marginBottom: 16,
+    borderWidth: 1,
+    borderColor: '#ddd',
+    borderRadius: 10,
+    paddingHorizontal: 15,
+    paddingVertical: 12,
   },
   searchIcon: {
-    marginRight: 8,
+    marginRight: 10,
   },
   searchInput: {
     flex: 1,
-    paddingVertical: 8,
-  },
-  historyText: {
-    color: '#6B7280',
-    marginBottom: 8,
+    fontSize: 16,
   },
   card: {
     flexDirection: 'row',
-    backgroundColor: '#93C5FD',
+    backgroundColor: '#E0F2FE',
     padding: 16,
-    borderRadius: 12,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.2,
-    shadowRadius: 4,
-    elevation: 5,
+    borderRadius: 8,
     marginBottom: 16,
+  },
+  cardIcon: {
+    width: 48,
+    height: 48,
+    backgroundColor: 'white',
+    borderRadius: 24,
+    justifyContent: 'center',
     alignItems: 'center',
   },
-  iconContainer: {
-    backgroundColor: 'white',
-    borderRadius: 50,
-    padding: 12,
-    marginRight: 16,
-  },
   cardContent: {
+    marginLeft: 16,
     flex: 1,
   },
-  cardTitle: {
+  cardName: {
     fontSize: 16,
     fontWeight: 'bold',
-    color: '#000',
   },
-  cardSubtitle: {
-    color: '#374151',
-  },
-  cardInfo: {
-    color: '#374151',
-    marginBottom: 8,
-  },
-  cardLink: {
-    color: '#2563EB',
+  cardTitle: {
     fontSize: 14,
+    color: 'gray',
   },
-  bottomNavigation: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    paddingVertical: 10,
-    borderTopWidth: 1,
-    borderTopColor: '#E5E7EB',
+  cardDetails: {
+    fontSize: 12,
+    color: 'gray',
+    marginBottom: 4,
+  },
+  profileLink: {
+    color: 'blue',
+    fontSize: 12,
   },
 });
 
