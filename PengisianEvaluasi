@@ -1,84 +1,158 @@
-import React, { useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Alert, Image } from 'react-native';
-import { Ionicons } from '@expo/vector-icons'; // Pastikan kamu menginstall @expo/vector-icons
+import React, { useState } from "react";
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  Alert,
+  Image,
+  ScrollView,
+} from "react-native";
+import { Ionicons } from "@expo/vector-icons";
+import { MaterialIcons } from "@expo/vector-icons"; // Import untuk ikon ceklis
 
-const LecturerEvaluation = ({ navigation }) => {
-  const [selectedOption, setSelectedOption] = useState(null);
+const Pengisianevaluasi = ({ navigation }) => {
+  const [selectedOption, setSelectedOption] = useState({});
+  const [isAnonymous, setIsAnonymous] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
 
-  const handleOptionPress = (option) => {
-    setSelectedOption(option);
+  const handleOptionPress = (question, option) => {
+    setSelectedOption((prev) => ({ ...prev, [question]: option }));
   };
 
   const handleSubmit = () => {
-    if (selectedOption) {
-      Alert.alert('Terima Kasih!', `Anda memilih: ${selectedOption}`);
+    if (Object.keys(selectedOption).length > 0) {
+      setSubmitted(true);
     } else {
-      Alert.alert('Peringatan', 'Silakan pilih salah satu opsi.');
+      Alert.alert(
+        "Peringatan",
+        "Silakan pilih salah satu opsi untuk setiap pertanyaan."
+      );
     }
   };
 
+  const questions = [
+    "Apakah materi disampaikan dengan jelas dan mudah dipahami?",
+    "Apakah dosen memberikan contoh yang relevan?",
+    "Apakah dosen dapat menjawab pertanyaan dengan baik?",
+    "Apakah Anda merasa tertarik dengan materi yang diajarkan?",
+    "Apakah waktu yang diberikan untuk tugas cukup?",
+  ];
+
+  if (submitted) {
+    return (
+      <View style={styles.submissionContainer}>
+        {/* Header di atas */}
+        <View style={styles.headerContainerSubmitted}>
+          <TouchableOpacity
+            onPress={() => navigation.navigate("Pengisian1")}
+            style={styles.backArrow}
+          >
+            <Ionicons name="arrow-back" size={28} color="black" />
+          </TouchableOpacity>
+          <Text style={styles.headerSubmitted}>
+            <Text style={styles.yellowText}>Pengisian</Text>{" "}
+            <Text style={styles.blueText}>Evaluasi</Text>
+          </Text>
+        </View>
+
+        {/* Konten utama */}
+        <View style={styles.circle}>
+          <MaterialIcons name="check" size={50} color="white" />
+        </View>
+        <Text style={styles.submissionTitle}>Data Telah Terkirim</Text>
+        <Text style={styles.submissionMessage}>
+          Terima Kasih! Anda telah melakukan pengisian evaluasi kinerja
+          pengajaran dosen.
+        </Text>
+        <TouchableOpacity
+          style={styles.homeButton}
+          onPress={() => navigation.navigate("Beranda")}
+        >
+          <Text style={styles.homeButtonText}>Kembali ke Halaman Utama</Text>
+        </TouchableOpacity>
+      </View>
+    );
+  }
+
   return (
     <View style={styles.container}>
-      {/* Menggabungkan tombol back dan teks dalam satu baris */}
+      {/* Header di atas */}
       <View style={styles.headerContainer}>
-        <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backArrow}>
+        <TouchableOpacity
+          onPress={() => navigation.navigate("Pengisian1")}
+          style={styles.backArrow}
+        >
           <Ionicons name="arrow-back" size={28} color="black" />
         </TouchableOpacity>
         <Text style={styles.header}>
-          <Text style={styles.yellowText}>Pengisian</Text> <Text style={styles.blueText}>Evaluasi</Text>
+          <Text style={styles.yellowText}>Pengisian</Text>{" "}
+          <Text style={styles.blueText}>Evaluasi</Text>
         </Text>
+      </View>
+
+      <View style={styles.toggleContainer}>
+        <Text style={styles.toggleText}>Mode Anonim</Text>
+        <TouchableOpacity
+          style={[
+            styles.toggleButton,
+            isAnonymous ? styles.active : styles.inactive,
+          ]}
+          onPress={() => setIsAnonymous((prev) => !prev)}
+        >
+          <Text style={styles.toggleButtonText}>
+            {isAnonymous ? "ON" : "OFF"}
+          </Text>
+        </TouchableOpacity>
       </View>
 
       <View style={styles.lecturerCard}>
         <Image
-          source={{ uri: 'https://via.placeholder.com/100' }} // URL placeholder untuk gambar profil kosong
+          source={{ uri: "https://via.placeholder.com/100" }}
           style={styles.profileImage}
         />
         <View style={styles.lecturerInfo}>
           <Text style={styles.lecturerName}>Rizkyllah, M.Kom</Text>
           <Text style={styles.lecturerCourse}>Teori Basis Data II</Text>
-          <Text style={styles.lecturerDetails}>Dosen Sistem Informasi 2022 - sekarang</Text>
+          <Text style={styles.lecturerDetails}>
+            Dosen Sistem Informasi 2022 - sekarang
+          </Text>
         </View>
       </View>
 
-      <Text style={styles.question}>
-        Apakah materi disampaikan dengan jelas dan mudah dipahami?
-      </Text>
+      {/* Pertanyaan */}
+      <ScrollView style={styles.scrollContainer}>
+        {questions.map((question, index) => (
+          <View key={index}>
+            <Text style={styles.question}>{question}</Text>
+            <View style={styles.spacer} />
+            {[
+              "Sangat Setuju",
+              "Setuju",
+              "Tidak Setuju",
+              "Sangat Tidak Setuju",
+            ].map((option) => (
+              <TouchableOpacity
+                key={option}
+                style={[
+                  styles.optionButton,
+                  selectedOption[question] === option && styles.selectedOption,
+                ]}
+                onPress={() => handleOptionPress(question, option)}
+              >
+                <Text style={styles.optionText}>{option}</Text>
+              </TouchableOpacity>
+            ))}
+          </View>
+        ))}
+      </ScrollView>
 
-      {/* Memberi spasi antara teks dan tombol */}
-      <View style={styles.spacer} />
-
-      <TouchableOpacity
-        style={[styles.optionButton, selectedOption === 'Sangat Setuju' && styles.selectedOption]}
-        onPress={() => handleOptionPress('Sangat Setuju')}
-      >
-        <Text style={styles.optionText}>Sangat Setuju</Text>
-      </TouchableOpacity>
-
-      <TouchableOpacity
-        style={[styles.optionButton, selectedOption === 'Setuju' && styles.selectedOption]}
-        onPress={() => handleOptionPress('Setuju')}
-      >
-        <Text style={styles.optionText}>Setuju</Text>
-      </TouchableOpacity>
-
-      <TouchableOpacity
-        style={[styles.optionButton, selectedOption === 'Tidak Setuju' && styles.selectedOption]}
-        onPress={() => handleOptionPress('Tidak Setuju')}
-      >
-        <Text style={styles.optionText}>Tidak Setuju</Text>
-      </TouchableOpacity>
-
-      <TouchableOpacity
-        style={[styles.optionButton, selectedOption === 'Sangat Tidak Setuju' && styles.selectedOption]}
-        onPress={() => handleOptionPress('Sangat Tidak Setuju')}
-      >
-        <Text style={styles.optionText}>Sangat Tidak Setuju</Text>
-      </TouchableOpacity>
-
-      {/* Kontainer untuk menampung tombol Back dan Submit agar sejajar */}
+      {/* Tombol bawah */}
       <View style={styles.bottomButtonsContainer}>
-        <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backCircle}>
+        <TouchableOpacity
+          onPress={() => navigation.navigate("Pengisian1")}
+          style={styles.backCircle}
+        >
           <Ionicons name="arrow-back" size={24} color="white" />
         </TouchableOpacity>
 
@@ -94,121 +168,196 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
-    backgroundColor: '#fff',
+    backgroundColor: "#fff",
   },
-  // Kontainer untuk menyatukan tombol back dan header agar sejajar secara horizontal
+  submissionContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    padding: 20,
+    backgroundColor: "#fff",
+  },
   headerContainer: {
-    flexDirection: 'row', // Menyusun elemen dalam satu baris
-    alignItems: 'center', // Menyelaraskan secara vertikal
-    marginBottom: 25, // Memberikan jarak antara header dan konten lainnya
-    marginTop: 40, // Margin atas untuk menyelaraskan keseluruhan header
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 25,
+    marginTop: 20,
+  },
+  headerContainerSubmitted: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 25,
+    marginTop: 20,
+    paddingHorizontal: 20,
   },
   backArrow: {
-    marginRight: 10, // Memberi jarak antara tombol back dan teks
+    marginRight: 10,
   },
   header: {
     fontSize: 24,
-    fontWeight: 'bold',
-    color: '#333',
+    fontWeight: "bold",
+    color: "#333",
+  },
+  headerSubmitted: {
+    fontSize: 24,
+    fontWeight: "bold",
+    color: "#333",
+  },
+  circle: {
+    width: 100,
+    height: 100,
+    borderRadius: 50,
+    backgroundColor: "green",
+    marginBottom: 20,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  submissionTitle: {
+    fontSize: 24,
+    fontWeight: "bold",
+    color: "#333",
+    marginBottom: 10,
+  },
+  submissionMessage: {
+    textAlign: "center",
+    marginBottom: 20,
+    fontSize: 16,
+    color: "#555",
+  },
+  homeButton: {
+    backgroundColor: "#3498DB",
+    padding: 15,
+    borderRadius: 10,
+    marginTop: 20,
+  },
+  homeButtonText: {
+    color: "#fff",
+    fontWeight: "bold",
+    fontSize: 16,
   },
   yellowText: {
-    color: '#FFC727', // Warna kuning untuk "Pengisian"
+    color: "#FFC727",
   },
   blueText: {
-    color: '#3498DB', // Warna biru untuk "Evaluasi"
+    color: "#3498DB",
+  },
+  toggleContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    marginBottom: 20,
+  },
+  toggleText: {
+    fontSize: 16,
+  },
+  toggleButton: {
+    padding: 10,
+    borderRadius: 20,
+  },
+  active: {
+    backgroundColor: "#FBBF24",
+  },
+  inactive: {
+    backgroundColor: "#ccc",
+  },
+  toggleButtonText: {
+    fontWeight: "bold",
+    color: "#003366",
   },
   lecturerCard: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: 'linear-gradient(to right, #E0E0E0, #FFFFFF)', // Gradasi dari abu-abu muda ke putih
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "#f5f5f5",
     padding: 20,
     borderRadius: 20,
     marginBottom: 20,
     borderWidth: 1,
-    backgroundColor: '#f5f5f5',
   },
   profileImage: {
     width: 90,
     height: 90,
-    borderRadius: 50, // Membuat gambar berbentuk bulat
+    borderRadius: 50,
     marginRight: 25,
   },
   lecturerInfo: {
     flex: 1,
-    justifyContent: 'center',
+    justifyContent: "center",
   },
   lecturerName: {
     fontSize: 18,
-    fontWeight: 'bold',
-    color: '#333',
-    textAlign: 'left', // Teks rata kiri
+    fontWeight: "bold",
+    color: "#333",
+    textAlign: "left",
     marginBottom: 5,
   },
   lecturerCourse: {
     fontSize: 16,
-    color: '#555',
+    color: "#555",
     marginBottom: 5,
-    textAlign: 'left', // Teks rata kiri
+    textAlign: "left",
   },
   lecturerDetails: {
     fontSize: 10.8,
-    color: '#888',
-    textAlign: 'left', // Teks rata kiri
+    color: "#888",
+    textAlign: "left",
+  },
+  scrollContainer: {
+    flex: 1,
   },
   question: {
     fontSize: 18,
     marginTop: 20,
     marginBottom: 15,
-    textAlign: 'center',
-    color: '#333',
+    textAlign: "center",
+    color: "#333",
     marginLeft: 20,
     marginRight: 25,
   },
   spacer: {
-    marginBottom: 15, // Spasi antara pertanyaan dan tombol opsi
+    marginBottom: 15,
   },
   optionButton: {
-    backgroundColor: '#225580', // Warna tombol opsi default (biru gelap)
+    backgroundColor: "#225580",
     padding: 15,
     borderRadius: 50,
     marginBottom: 10,
-    alignItems: 'center',
+    alignItems: "center",
   },
   optionText: {
-    color: '#fff',
-    fontWeight: 'bold',
+    color: "#fff",
+    fontWeight: "bold",
     fontSize: 16,
   },
   selectedOption: {
-    backgroundColor: '#ffc727', // Warna kuning untuk opsi yang dipilih
+    backgroundColor: "#ffc727",
   },
   bottomButtonsContainer: {
-    flexDirection: 'row', // Menyusun tombol dalam baris
-    justifyContent: 'space-between', // Memberikan ruang antara tombol Back dan Submit
-    alignItems: 'center',
-    marginTop: 40,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginTop: 20,
   },
   backCircle: {
-    backgroundColor: '#ffc727', // Warna lingkaran kuning
+    backgroundColor: "#ffc727",
     padding: 15,
     borderRadius: 50,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
     width: 60,
     height: 60,
   },
   submitButton: {
-    backgroundColor: '#3498DB', // Warna biru terang untuk tombol submit
+    backgroundColor: "#3498DB",
     padding: 10,
     borderRadius: 20,
-    alignItems: 'center',
-    width: 100, // Ukuran tombol Submit
+    alignItems: "center",
+    width: 100,
   },
   submitText: {
-    color: '#fff',
-    fontWeight: 'bold',
+    color: "#fff",
+    fontWeight: "bold",
     fontSize: 16,
   },
 });
 
-export default LecturerEvaluation;
+export default Pengisianevaluasi;
