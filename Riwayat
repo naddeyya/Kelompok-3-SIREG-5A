@@ -8,11 +8,11 @@ import {
   TouchableOpacity, 
   SafeAreaView 
 } from 'react-native';
-import Icon from 'react-native-vector-icons/Ionicons'; // Untuk icon jika diperlukan
+import Icon from 'react-native-vector-icons/Ionicons'; // Untuk icon
 import { useNavigation } from '@react-navigation/native'; // Import useNavigation
 
 const App = () => {
-  const navigation = useNavigation(); // Inisialisasi navigation
+  const navigation = useNavigation(); 
   
   return (
     <SafeAreaView style={styles.container}>
@@ -32,10 +32,10 @@ const App = () => {
 
       {/* Menu */}
       <View style={styles.menuContainer}>
-        <TouchableOpacity onPress={() => navigation.navigate('Beranda')}> {/* Tombol Beranda */}
+        <TouchableOpacity onPress={() => navigation.navigate('Beranda')}>
           <Text style={styles.menuText}>BERANDA</Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate('Pengisian1')}> {/* Tombol Pengisian */}
+        <TouchableOpacity onPress={() => navigation.navigate('Pengisian1')}>
           <Text style={styles.menuText}>PENGISIAN</Text>
         </TouchableOpacity>
         <Text style={styles.menuTextActive}>RIWAYAT</Text>
@@ -99,13 +99,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   searchInput: {
-    flexDirection: "row",
-    alignItems: "center",
+    flex: 1,
     backgroundColor: "#fff",
     borderRadius: 10,
     paddingHorizontal: 25,
     paddingVertical: 17,
-    width: "100%",
     marginTop: 20,
     marginBottom: 20,
     shadowColor: "#000",
@@ -114,15 +112,16 @@ const styles = StyleSheet.create({
     shadowRadius: 5,
   },
   searchIconContainer: {
-    marginLeft: -40,
+    position: 'absolute',
+    right: 30,
     zIndex: 1,
   },
   menuContainer: {
     flexDirection: 'row',
     justifyContent: 'space-around',
     marginVertical: 20,
-    marginBottom: 20,
     borderBottomColor: '#ccc',
+    borderBottomWidth: 1,
   },
   menuText: {
     fontSize: 16,
