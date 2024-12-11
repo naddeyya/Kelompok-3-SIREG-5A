@@ -1,3 +1,4 @@
+//login
 import React, { useState } from "react";
 import { SafeAreaView, ScrollView, Text, TextInput, TouchableOpacity } from "react-native";
 
@@ -123,4 +124,3 @@ const LoginScreen = ({ navigation }) => { // Pastikan `navigation` diterima di s
 };
 
 export default LoginScreen;
-
