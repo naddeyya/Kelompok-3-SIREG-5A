@@ -1,6 +1,7 @@
+//halaman pertanyaan 
 import React from 'react';
 import { View, Text, StyleSheet, FlatList, TouchableOpacity, Image } from 'react-native';
-import { Ionicons } from '@expo/vector-icons'; // Menambahkan import Ionicons
+import { FontAwesome } from '@expo/vector-icons';
 
 const instructors = [
   { id: '1', name: 'Rizkyllah, M.Kom', course: 'Teori Basis Data II', photo: 'https://via.placeholder.com/50' },
@@ -10,7 +11,7 @@ const instructors = [
   { id: '5', name: 'Andriansyah, M.Kom', course: 'Manajemen Strategis', photo: 'https://via.placeholder.com/50' }
 ];
 
-const EvaluationScreen = ({ navigation }) => {
+const Halamanpertanyaan = ({ navigation }) => {
 
   const handleBackPress = () => {
     navigation.goBack(); // Fungsi untuk kembali ke layar sebelumnya
@@ -34,7 +35,7 @@ const EvaluationScreen = ({ navigation }) => {
       <View style={styles.headerContainer}>
         {/* Mengubah tombol back menggunakan Ionicons */}
         <TouchableOpacity onPress={handleBackPress} style={styles.backButton}>
-          <Ionicons name="arrow-back" size={28} color="black" />
+        <FontAwesome name="arrow-left" size={24} color="gray" marginLeft='16' marginTop='18' />
         </TouchableOpacity>
         <Text style={styles.header}>Pengisian <Text style={styles.evaluationText}>Evaluasi</Text></Text>
       </View>
@@ -73,13 +74,16 @@ const styles = StyleSheet.create({
   header: {
     fontSize: 24,
     fontWeight: 'bold',
-    color: '#ffc727', // Warna kuning untuk "Pengisian"
+    color: '#FDCB58',
+    marginLeft: 15,
+    marginTop: 15,
+     // Warna kuning untuk "Pengisian"
   },
   evaluationText: {
-    color: '#3498DB', // Warna biru untuk "Evaluasi"
+    color: '#003366', // Warna biru untuk "Evaluasi"
   },
   subHeader: {
-    fontSize: 10,
+    fontSize: 16,
     marginBottom: 20, // Jeda/spasi di antara sub-header dan FlatList
     color: '#c2c3c5', // Warna teks sub-header
     marginTop: 25,
@@ -128,4 +132,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default EvaluationScreen;
+export default Halamanpertanyaan;
