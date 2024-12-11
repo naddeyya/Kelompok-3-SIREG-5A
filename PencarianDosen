@@ -1,27 +1,44 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
+//pencarian dosen 
+import React, { useState } from 'react';
+import { View, Text, TextInput, TouchableOpacity, FlatList, StyleSheet } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
 
-const ProfilDosen = ({ navigation }) => {
-  const [expandedSection, setExpandedSection] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
-  
-  // Simulate a fetch operation for data loading
-  useEffect(() => {
-    setTimeout(() => setIsLoading(false), 2000);  // Mock loading delay
-  }, []);
+const data = [
+  {
+    id: '1',
+    name: 'Rizkyllah, M.Kom',
+    title: 'Magister Komputer',
+    details: 'Dosen Sistem Informasi 2022-sekarang',
+  },
+  {
+    id: '2',
+    name: 'Ayu Pratiwi, S.Kom, M.T',
+    title: 'Magister Teknik',
+    details: 'Dosen Teknik Informatika 2015-sekarang',
+  },
+  {
+    id: '3',
+    name: 'Joko Susilo, Ph.D',
+    title: 'Master of Philosophy',
+    details: 'Dosen Sistem Komputer 2005-sekarang',
+  },
+  {
+    id: '4',
+    name: 'Dr. Yusuf, M.T',
+    title: 'Doktor Ilmu Komputer',
+    details: 'Dosen Sistem Komputer 2005-sekarang',
+  },
+];
 
-  const toggleSection = (section) => {
-    setExpandedSection(expandedSection === section ? null : section);
-  };
+const PencarianDosen = () => {
+  const navigation = useNavigation();
+  const [searchQuery, setSearchQuery] = useState('');
 
-  if (isLoading) {
-    return (
-      <View style={styles.loadingContainer}>
-        <Text>Loading...</Text>
-      </View>
-    );
-  }
+  // Filter data based on search query
+  const filteredData = data.filter(item =>
+    item.name.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   return (
     <View style={styles.container}>
@@ -30,57 +47,42 @@ const ProfilDosen = ({ navigation }) => {
         <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
           <FontAwesome name="arrow-left" size={24} color="gray" />
         </TouchableOpacity>
-        <Text style={styles.headerTitle}>
-          <Text style={styles.highlightYellow}>Profil </Text>
-          <Text style={styles.highlightBlue}>Dosen</Text>
+        <Text style={styles.headerText}>
+          <Text style={styles.highlight}>Pencarian</Text> <Text style={styles.highlightdosen}>Dosen</Text>
         </Text>
       </View>
 
-      {/* Profile Info */}
-      <View style={styles.profileHeader}>
-        <View style={styles.profilePicContainer}>
-          <FontAwesome name="user" size={85} color="white" />
-        </View>
-        <View style={styles.profileInfo}>
-          <Text style={styles.name}>Rizkyllah, M.Kom</Text>
-          <Text style={styles.degree}>Magister Komputer</Text>
-          <Text style={styles.status}>Dosen Sistem Informasi 2022-sekarang</Text>
-        </View>
+      {/* Search Input */}
+      <View style={styles.searchContainer}>
+        <FontAwesome name="search" size={20} color="gray" style={styles.searchIcon} />
+        <TextInput
+          style={styles.searchInput}
+          placeholder="Search"
+          value={searchQuery}
+          onChangeText={setSearchQuery} // Update search query
+        />
       </View>
 
-      {/* Accordion Sections */}
-      <ScrollView style={styles.sections}>
-        {['Informasi Pribadi', 'Riwayat Pendidikan', 'Riwayat Pekerjaan', 'Publikasi Karya'].map((section, index) => (
-          <View key={index}>
-            <TouchableOpacity
-              style={styles.sectionButton}
-              onPress={() => toggleSection(section)}
-              accessibilityLabel={`Toggle ${section} section`}  // Fixed here
-            >
-              <Text style={styles.sectionTitle}>{section}</Text>
-              <FontAwesome
-                name={expandedSection === section ? 'chevron-up' : 'chevron-down'}
-                size={20}
-              />
-            </TouchableOpacity>
-            {expandedSection === section && (
-              <View style={styles.sectionContent}>
-                <Text>
-                  {section === 'Informasi Pribadi' && 'Berlatar pendidikan magister komputer, dan telah mengajar di Program Studi Sistem Informasi sejak tahun 2022. Fokus utama pada analisis sistem, pengembangan perangkat lunak, dan manajemen data.'}
-                  {section === 'Riwayat Pendidikan' && 'Universitas Sriwijaya 2009, Universitas Teknologi Malaysia 2015'}
-                  {section === 'Riwayat Pekerjaan' && 'Sistem Analis di PT Unilever 2018-2020, Manager IT di Amazon 2021-2022, Dosen Sistem Informasi 2022-sekarang'}
-                  {section === 'Publikasi Karya' && 'International Journal of Decision Support Systems, Scopus Indexed Journal of Logistics and Technology, Journal of Information Systems and E-Government'}
-                </Text>
-              </View>
-            )}
+      {/* List of Dosen */}
+      <FlatList
+        data={filteredData}
+        keyExtractor={(item) => item.id}
+        renderItem={({ item }) => (
+          <View style={styles.card}>
+            <View style={styles.cardIcon}>
+              <FontAwesome name="user" size={24} color="gray" />
+            </View>
+            <View style={styles.cardContent}>
+              <Text style={styles.cardName}>{item.name}</Text>
+              <Text style={styles.cardTitle}>{item.title}</Text>
+              <Text style={styles.cardDetails}>{item.details}</Text>
+              <TouchableOpacity onPress={() => navigation.navigate('ProfilDosen', { dosenId: item.id })}>
+                <Text style={styles.profileLink}>lihat profil</Text>
+              </TouchableOpacity>
+            </View>
           </View>
-        ))}
-      </ScrollView>
-
-      {/* Evaluation Button */}
-      <TouchableOpacity style={styles.evaluationButton} onPress={() => navigation.navigate('PengisianEvaluasi')}>
-        <Text style={styles.evaluationButtonText}>Isi Evaluasi</Text>
-      </TouchableOpacity>
+        )}
+      />
     </View>
   );
 };
@@ -88,107 +90,84 @@ const ProfilDosen = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F7FAFC',
-  },
-  loadingContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    backgroundColor: 'white',
+    padding: 16,
   },
   header: {
     flexDirection: 'row',
     alignItems: 'center',
-    padding: 16,
-    backgroundColor: 'white',
-    elevation: 3,
-    marginTop: 20, // Meningkatkan margin atas agar lebih ke bawah
+    marginBottom: 16,
   },
   backButton: {
-    marginRight: 16, // Jarak antara tombol dan judul
+    marginLeft: 16,
+    marginTop: 66,
+    padding: 8,
   },
-  headerTitle: {
+  headerText: {
     fontSize: 24,
     fontWeight: 'bold',
+    marginLeft: 28,
+    marginTop: 70,
   },
-  highlightYellow: {
-    color: '#FBBF24',
+  highlight: {
+    color: '#FDCB58',
   },
-  highlightBlue: {
+  highlightdosen: {
     color: '#003366',
   },
-  profileHeader: {
-    backgroundColor: '#4a8cc4',
-    padding: 24,
-    alignItems: 'center',
-    position: 'relative',
-  },
-  profilePicContainer: {
-    marginTop: 16,
-    borderRadius: 50,
-    borderWidth: 2,
-    borderColor: 'white',
-    padding: 10,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  profileInfo: {
-    marginTop: 16,
-    backgroundColor: 'rgba(255, 255, 255, 0.3)',
-    padding: 20,
-    borderRadius: 15,
-    alignItems: 'center',
-  },
-  name: {
-    color: 'white',
-    fontSize: 21,
-    fontWeight: 'bold',
-  },
-  degree: {
-    color: 'white',
-    fontSize: 16,
-  },
-  status: {
-    color: 'white',
-    fontSize: 14,
-  },
-  sections: {
-    flex: 1,
-    padding: 18,
-  },
-  sectionButton: {
-    padding: 15,
-    backgroundColor: '#FFFFFF',
-    borderRadius: 10,
+  searchContainer: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 10,
-  },
-  sectionTitle: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    color: 'black',
-  },
-  sectionContent: {
-    padding: 20,
-    backgroundColor: '#F3F4F6',
+    marginBottom: 16,
+    borderWidth: 1,
+    borderColor: '#ddd',
     borderRadius: 10,
-  },
-  evaluationButton: {
-    backgroundColor: '#FBBF24',
+    paddingHorizontal: 15,
     paddingVertical: 12,
-    paddingHorizontal: 20,
-    borderRadius: 30,
-    alignItems: 'center',
-    justifyContent: 'center',
-    margin: 16,
-    elevation: 3,
   },
-  evaluationButtonText: {
-    color: '#003366',
+  searchIcon: {
+    marginRight: 10,
+  },
+  searchInput: {
+    flex: 1,
+    fontSize: 16,
+  },
+  card: {
+    flexDirection: 'row',
+    backgroundColor: '#E0F2FE',
+    padding: 16,
+    borderRadius: 8,
+    marginBottom: 16,
+  },
+  cardIcon: {
+    width: 48,
+    height: 48,
+    backgroundColor: 'white',
+    borderRadius: 24,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  cardContent: {
+    marginLeft: 16,
+    flex: 1,
+  },
+  cardName: {
     fontSize: 16,
     fontWeight: 'bold',
+  },
+  cardTitle: {
+    fontSize: 14,
+    color: 'gray',
+  },
+  cardDetails: {
+    fontSize: 12,
+    color: 'gray',
+    marginBottom: 4,
+  },
+  profileLink: {
+    color: 'blue',
+    fontSize: 12,
   },
 });
 
-export default ProfilDosen;
+export default PencarianDosen;
